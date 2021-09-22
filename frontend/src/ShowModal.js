@@ -7,13 +7,11 @@ function goToGallery (){
 }
 
 
-class ShowMoadl extends Component {
+class ShowModal extends Component {
   constructor(props){
     super(props)
     this.state = {
       open : props.open,
-      setShow : null,
-      show : null
     }
   }
 
@@ -21,23 +19,17 @@ class ShowMoadl extends Component {
   }
     
     render(){
-    
-    
-      const handleClose = () => this.setState({open : false})
-      const handleOpen = () => this.setState({open : this.props.open})
-
-
-
+        
       return (
         <>
           <Modal
             show= {this.state.open}
-            onHide={handleClose}
             backdrop="static"
             keyboard={false}
           >
-            <Modal.Header closeButton>
+            <Modal.Header >
               <Modal.Title>{this.props.title}</Modal.Title>
+              {this.props.children}
             </Modal.Header>
 
             <Modal.Body >
@@ -45,7 +37,7 @@ class ShowMoadl extends Component {
             </Modal.Body>
             
             <Modal.Footer>
-              <Button variant="primary" onClick={goToGallery}>Go to Gallery</Button>
+
             </Modal.Footer>
           </Modal>
         </>
@@ -53,4 +45,4 @@ class ShowMoadl extends Component {
     }
 
 }
-export default ShowMoadl
+export default ShowModal

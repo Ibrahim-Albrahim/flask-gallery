@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Container, Row, Col, Image, Nav, Modal} from 'react-bootstrap';
-import ShowMoadl from './ShowMoadl';
+import ShowModal from './ShowModal';
 
 
 class Gallery extends Component {
@@ -39,10 +39,11 @@ class Gallery extends Component {
           <Button variant="danger" className="danger" onClick={this.clickDelete()}>Delete</Button>
         </div>
 
-        {this.state.showModal && <ShowMoadl open pic={imgSrc} title={this.props.title} />}
-
-
-
+        {this.state.showModal && 
+        <ShowModal open pic={imgSrc} title={this.props.title}>
+          <Button variant="danger" className="btn-close" onClick={() => this.setState({showModal: false})}/>
+        </ShowModal>
+        }
       </Col>
 
     );
