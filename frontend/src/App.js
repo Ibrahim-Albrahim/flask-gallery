@@ -29,7 +29,7 @@ class App extends Component {
 
   render(){
     var {isLoaded , galleries} = this.state;
-    console.log(isLoaded,galleries)
+    // console.log(isLoaded,galleries)
 
     return (
       <div className="images-container" >
