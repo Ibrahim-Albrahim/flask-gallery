@@ -40,7 +40,7 @@ class Gallery extends Component {
         </div>
 
         {this.state.showModal && 
-        <ShowModal open pic={imgSrc} title={this.props.title}>
+        <ShowModal open galleryId={this.props.id} title={this.props.title}>
           <Button variant="danger" className="btn-close" onClick={() => this.setState({showModal: false})}/>
         </ShowModal>
         }
