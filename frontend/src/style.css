@@ -113,10 +113,17 @@ a {
 
 .Modal {
     background-color: #14141c;
-    color: black;
 }
 
 .modal-content {
     background-color: #3c3c49;
 }
+
+.modal-title {
+    color: white;
+    font-weight: bold;
+}
+
+
+
 

@@ -26,7 +26,7 @@ class ShowMoadl extends Component {
       const handleClose = () => this.setState({open : false})
       const handleOpen = () => this.setState({open : this.props.open})
 
-      
+
 
       return (
         <>

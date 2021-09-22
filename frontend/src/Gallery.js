@@ -39,7 +39,7 @@ class Gallery extends Component {
           <Button variant="danger" className="danger" onClick={this.clickDelete()}>Delete</Button>
         </div>
 
-        {this.state.showModal && <ShowMoadl open={true} pic={imgSrc} title={this.props.title}/>}
+        {this.state.showModal && <ShowMoadl open pic={imgSrc} title={this.props.title} />}
 
 
 
