@@ -194,7 +194,7 @@ def show_gallery_json(gallery_id):
     data.append ({
         'id': photo.id,
         'file_name' : photo.name,
-        'rendered_data': photo.rendered_data,
+        'img': photo.rendered_data,
     })
 
   return jsonify(data)
