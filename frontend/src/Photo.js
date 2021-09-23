@@ -19,10 +19,6 @@ class Photo extends Component {
   clickDelete (id){}
 
 
-  
-
-
-
   render(){
 
     let imgSrc = "data:;base64,"+this.props.pic;
