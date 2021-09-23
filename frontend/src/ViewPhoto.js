@@ -28,23 +28,19 @@ class ViewPhoto extends Component {
       return (
         <>
           <Modal
-            size="lg"
+            className="view-photo-modal"
             show= {this.state.open}
             backdrop="static"
             keyboard={false}
           >
             <Modal.Header >
-              <Modal.Title>{this.props.title}</Modal.Title>
               {this.props.children}
             </Modal.Header>
 
-            <Modal.Body >
+            <Modal.Body className="img">
             <Image src={imgSrc} thumbnail />
             </Modal.Body>
             
-            <Modal.Footer>
-
-            </Modal.Footer>
           </Modal>
         </>
       );
