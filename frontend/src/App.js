@@ -31,6 +31,9 @@ class App extends Component {
     var {isLoaded , galleries} = this.state;
     // console.log(isLoaded,galleries)
 
+    //TODO: progress indicator.
+
+
     return (
       <div className="images-container" >
         {galleries.map(gallery => (

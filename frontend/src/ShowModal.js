@@ -37,6 +37,11 @@ class ShowModal extends Component {
     render(){
       var {isLoaded , photos} = this.state;
       // console.log(isLoaded,photos)
+
+      //TODO: progress indicator.
+      //TODO: arrows to move between pics.
+
+
       return (
         <>
           <Modal
