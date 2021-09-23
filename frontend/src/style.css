@@ -25,7 +25,12 @@ a {
     align-items: center;
     justify-content: space-between;
     width: 100%;
+}
 
+.banner-two {
+    display: contents;
+    justify-content: center;
+    width: 100%;
 }
 
 .btn {
@@ -115,7 +120,7 @@ a {
 
 
 .modal {
-    background-color: #14141c;
+    background-color: transparent;
 }
 
 .modal-dialog {
@@ -124,11 +129,6 @@ a {
     max-width: 100%;
     margin: 2%;
 }
-
-/* TODO */
-/* .modal-header {
-
-} */
 
 .modal-content {
     background-color: #3c3c49;
@@ -156,3 +156,69 @@ a {
     width: 100%;
     height: 100%;
 }
+
+
+.add-gallery-modal{
+    background-color: transparent;
+    border-radius: 4rem;
+    width: 50%;
+    height: auto;
+    margin-top: 22.5%;
+    margin-left: 25%;
+}
+
+.add-gallery-form{
+    margin: 0;
+    margin-bottom: -2%;
+    display: flex;
+    font-weight: bold;
+}
+
+.add-gallery-form .gallery-title{
+    width: 15%;
+    margin-left: 5%;
+    text-align: center;
+    color: black;
+}
+
+.add-gallery-form .gallery-thum{
+    width: 50%;
+    margin-left: 3%;
+}
+
+.add-gallery-form .title-div{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    margin-bottom: 3%;
+
+}
+
+.add-gallery-form .file-div{
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+.add-gallery-modal .footer{
+    margin: 0;
+    padding: 0;
+    
+}
+
+
+@keyframes modalFade {
+    from {transform: translateY(-50%);opacity: 0;}
+    to {transform: translateY(0);opacity: 1;}
+  }
+  
+  .modal {
+    animation-name: modalFade;
+    animation-duration: .5s;
+  }
+
+
+
+  .view-photo-modal .img{
+      margin: 0;
+  }
