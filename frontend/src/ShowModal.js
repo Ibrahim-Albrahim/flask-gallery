@@ -54,10 +54,7 @@ class ShowModal extends Component {
                 <Photo key={photo.id} id={photo.id} pic= {photo.img}/>
               ))}
             </Modal.Body>
-            
-            <Modal.Footer>
 
-            </Modal.Footer>
           </Modal>
         </>
       );

@@ -90,9 +90,7 @@ class AddGallery extends Component {
               
             </Modal.Body>
             
-            <Modal.Footer className="footer">
-              
-            </Modal.Footer>
+
           </Modal>
         </>
       );

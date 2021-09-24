@@ -83,8 +83,7 @@ class AddPhoto extends Component {
               </Form>
             </Modal.Body>
             
-            <Modal.Footer className="footer">
-            </Modal.Footer>
+
           </Modal>
         </>
       );
