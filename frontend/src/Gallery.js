@@ -33,7 +33,7 @@ class Gallery extends Component {
         <Image className="gallery-img" src={imgSrc} thumbnail />
 
         <div className="gallery-info" id="gallerybtns">
-          <h3> {this.props.title} </h3>
+          <h3> {this.props.id} | {this.props.title} </h3>
           <Button variant="primary" onClick={() => this.setState({showModal: true})}>View</Button>
           <Button href="#" variant="success">Edit</Button>
           <Button variant="danger" className="danger" onClick={this.clickDelete()}>Delete</Button>
