@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Gallery from './Gallery';
 import AddGallery from './AddGallery';
+import AddPhoto from './AddPhoto'
 import { Button, Container, Row, Col, Image, Nav, Modal} from 'react-bootstrap';
 
 const apiUrl = 'http://localhost:5000/'
@@ -14,7 +15,8 @@ class App extends Component {
     this.state = {
       galleries: [],
       isLoaded: false,
-      showModal: false,
+      showAddGalleryModal: false,
+      showAddPhotoModal: false,
     }
   }
 
@@ -41,8 +43,8 @@ class App extends Component {
             MyGallery
           </h1>
           <div>
-              <a className="btn cold" onClick={() => this.setState({showModal: true})}> Add Gallery </a>
-              <a className="btn cold" href="/add-photo"> Add Photo </a>
+              <a className="btn cold" onClick={() => this.setState({showAddGalleryModal: true})}> Add Gallery </a>
+              <a className="btn cold" onClick={() => this.setState({showAddPhotoModal: true})}> Add Photo </a>
           </div>
         </header>
 
@@ -52,11 +54,17 @@ class App extends Component {
           ))}
         </div>
 
-        {this.state.showModal && 
+        {this.state.showAddGalleryModal && 
           <AddGallery open>
-            <Button variant="danger" className="btn-close" onClick={() => this.setState({showModal: false})}/>
-        </AddGallery>
-          }
+            <Button variant="danger" className="btn-close" onClick={() => this.setState({showAddGalleryModal: false})}/>
+          </AddGallery>
+        }
+
+        {this.state.showAddPhotoModal && 
+          <AddPhoto open>
+            <Button variant="danger" className="btn-close" onClick={() => this.setState({showAddPhotoModal: false})}/>
+          </AddPhoto>
+        }
       </div>
     );
   }
