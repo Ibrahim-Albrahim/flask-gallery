@@ -89,7 +89,7 @@ a {
     padding: 0.3rem;
     margin: 0.3rem;
     position: relative;
-    margin-top: 5%;
+    margin-top: 1%;
 
 }
 
@@ -141,7 +141,6 @@ a {
     flex-wrap: wrap;
     display: flex;
     align-items: center;
-    margin-top: -2%;
 }
 
 .modal-title {
@@ -165,11 +164,12 @@ a {
     height: auto;
     margin-top: 22.5%;
     margin-left: 25%;
+    overflow: hidden; /* hide scrollbar */
 }
 
 .add-gallery-form{
     margin: 0;
-    margin-bottom: -2%;
+    margin-bottom: -6%;
     display: flex;
     font-weight: bold;
 }
