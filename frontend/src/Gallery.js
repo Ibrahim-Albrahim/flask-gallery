@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Button, Container, Row, Col, Image, Nav, Modal} from 'react-bootstrap';
 import ShowModal from './ShowModal';
+const apiUrl = 'http://localhost:5000/'
 
 
 class Gallery extends Component {
@@ -16,7 +17,8 @@ class Gallery extends Component {
   }
 
   
-  clickDelete (id){}
+  clickDelete = () => fetch(apiUrl+'gallery/'+ this.props.id +'/delete' , {method: 'DELETE'})
+
 
 
   
@@ -36,7 +38,7 @@ class Gallery extends Component {
           <h3> {this.props.id} | {this.props.title} </h3>
           <Button variant="primary" onClick={() => this.setState({showModal: true})}>View</Button>
           <Button href="#" variant="success">Edit</Button>
-          <Button variant="danger" className="danger" onClick={this.clickDelete()}>Delete</Button>
+          <Button variant="danger" className="danger" onClick={this.clickDelete}>Delete</Button>
         </div>
 
         {this.state.showModal && 

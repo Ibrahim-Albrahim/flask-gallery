@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Button, Container, Row, Col, Image, Nav, Modal} from 'react-bootstrap';
 import ViewPhoto from './ViewPhoto';
+const apiUrl = 'http://localhost:5000/'
 
 
 class Photo extends Component {
@@ -16,7 +17,8 @@ class Photo extends Component {
   }
 
   
-  clickDelete (id){}
+  clickDelete = () => fetch(apiUrl+'photo/'+ this.props.id +'/delete' , {method: 'DELETE'})
+  
 
 
   render(){
@@ -32,7 +34,7 @@ class Photo extends Component {
           <h3> {this.props.title} </h3>
           <Button variant="primary" onClick={() => this.setState({showModal: true})}>View</Button>
           <Button href="#" variant="success">Edit</Button>
-          <Button variant="danger" className="danger" onClick={this.clickDelete()}>Delete</Button>
+          <Button variant="danger" className="danger" onClick={this.clickDelete}>Delete</Button>
         </div>
 
         {this.state.showModal && 
