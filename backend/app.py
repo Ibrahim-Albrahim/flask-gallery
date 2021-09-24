@@ -170,7 +170,7 @@ def delete_photo(photo_id):
             return redirect(url_for('index')) 
 
 
-# Show in json
+# Show in json 
 
 @app.route('/json', methods=['GET'])
 def show_galleries_json():
@@ -199,7 +199,51 @@ def show_gallery_json(gallery_id):
 
   return jsonify(data)
 
+@app.route('/gallery/create/json', methods=['POST'])
+def create_gallery_json():
+   file = request.files['file']
+   data = file.read()
+   render_file = render_picture(data)
+   title = request.form['title']
 
+   try:
+    newFile = Gallery(name=file.filename, data=data, rendered_data=render_file, title=title)
+    db.session.add(newFile)
+    db.session.commit() 
+    result = {"success": True}
+    return jsonify(result)
+
+   except ImportError:
+    db.session.rollback()
+    result = {"success": False}
+    return jsonify(result)
+    
+   finally:
+       db.session.close() 
+
+
+@app.route('/photo/create/json', methods=['POST'])
+def create_photo_json():
+   file = request.files['file']
+   data = file.read()
+   render_file = render_picture(data)
+   gallery_id = int(request.form['galleryId'])
+
+   newFile = Photo(name=file.filename, data=data, rendered_data=render_file, gallery_id=gallery_id)
+
+   try:
+    db.session.add(newFile)
+    db.session.commit() 
+    flash(f'photo added successfully.')
+
+   except:
+    db.session.rollback()
+    flash(f'An error occurred adding photo.')
+   finally:
+       db.session.close() 
+
+
+   return redirect(url_for('index')) 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
