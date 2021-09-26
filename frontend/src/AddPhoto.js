@@ -2,13 +2,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal, Image, Form} from 'react-bootstrap';
 import React, { Component, useState } from 'react'
 
-const apiUrl = 'http://localhost:5000/'
-
-
 class AddPhoto extends Component {
   constructor(props){
     super(props)
     this.state = {
+      apiUrl : this.props.apiUrl,
       open : props.open,
       galleryId : null,
       file : null,
@@ -38,7 +36,7 @@ class AddPhoto extends Component {
 
 
 
-    fetch(apiUrl+'photo/create/json' , {
+    fetch(this.state.apiUrl+'photo/create/json' , {
       method: 'POST',
       body: formData
     })

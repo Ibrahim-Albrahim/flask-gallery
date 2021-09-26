@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Container, Row, Col, Image, Nav, Modal} from 'react-bootstrap';
 import ViewPhoto from './ViewPhoto';
-const apiUrl = 'http://localhost:5000/'
-
 
 class Photo extends Component {
   constructor(props){
@@ -10,14 +8,15 @@ class Photo extends Component {
     super(props)
     this.state = {
       modalPic : null,
-      showModal : false
+      showModal : false,
+      apiUrl : this.props.apiUrl
     }
 
     this.clickDelete = this.clickDelete.bind(this);
   }
 
   
-  clickDelete = () => fetch(apiUrl+'photo/'+ this.props.id +'/delete' , {method: 'DELETE'})
+  clickDelete = () => fetch(this.state.apiUrl+'photo/'+ this.props.id +'/delete' , {method: 'DELETE'})
   
 
 

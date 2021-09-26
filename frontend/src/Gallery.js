@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import { Button, Container, Row, Col, Image, Nav, Modal} from 'react-bootstrap';
 import ShowModal from './ShowModal';
-const apiUrl = 'http://localhost:5000/'
-
 
 class Gallery extends Component {
   constructor(props){
 
     super(props)
     this.state = {
+      apiUrl : this.props.apiUrl,
       modalPic : null,
       showModal : false
     }
@@ -17,7 +16,7 @@ class Gallery extends Component {
   }
 
   
-  clickDelete = () => fetch(apiUrl+'gallery/'+ this.props.id +'/delete' , {method: 'DELETE'})
+  clickDelete = () => fetch(this.state.apiUrl+'gallery/'+ this.props.id +'/delete' , {method: 'DELETE'})
 
 
 
@@ -42,7 +41,7 @@ class Gallery extends Component {
         </div>
 
         {this.state.showModal && 
-        <ShowModal open galleryId={this.props.id} title={this.props.title}>
+        <ShowModal apiUrl={this.state.apiUrl} open galleryId={this.props.id} title={this.props.title}>
           <Button variant="danger" className="btn-close" onClick={() => this.setState({showModal: false})}/>
         </ShowModal>
         }

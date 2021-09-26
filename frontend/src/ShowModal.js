@@ -4,18 +4,11 @@ import React, { Component, useState } from 'react'
 import Photo from './Photo';
 
 
-const apiUrl = 'http://localhost:5000/'
-
-
-function goToGallery (){
-  window.location.href='http://hemo7f12.ahhsn.com/gallery/public'
-}
-
-
 class ShowModal extends Component {
   constructor(props){
     super(props)
     this.state = {
+      apiUrl : this.props.apiUrl,
       open : props.open,
       galleryId : props.galleryId,
       photos : [],
@@ -24,7 +17,7 @@ class ShowModal extends Component {
 
   componentDidMount(){
     var {galleryId} = this.state;
-    fetch(apiUrl+`${galleryId}/json`)
+    fetch(this.props.apiUrl+`${galleryId}/json`)
       .then(response => response.json())
       .then(json => {
         this.setState({
@@ -51,7 +44,7 @@ class ShowModal extends Component {
 
             <Modal.Body >
               {photos.map(photo => (
-                <Photo key={photo.id} id={photo.id} pic= {photo.img}/>
+                <Photo apiUrl={this.state.apiUrl} key={photo.id} id={photo.id} pic= {photo.img}/>
               ))}
             </Modal.Body>
 

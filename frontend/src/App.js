@@ -4,15 +4,13 @@ import AddGallery from './AddGallery';
 import AddPhoto from './AddPhoto'
 import { Button, Container, Row, Col, Image, Nav, Modal} from 'react-bootstrap';
 
-const apiUrl = 'http://localhost:5000/'
-
-
 
 class App extends Component {
 
   constructor(props){
     super(props);
     this.state = {
+      apiUrl: 'http://localhost:5000/',
       galleries: [],
       isLoaded: false,
       showAddGalleryModal: false,
@@ -21,7 +19,7 @@ class App extends Component {
   }
 
   componentDidMount(){
-    fetch(apiUrl+'json')
+    fetch(this.state.apiUrl+'json')
       .then(response => response.json())
       .then(json => {
         this.setState({
@@ -50,18 +48,18 @@ class App extends Component {
 
         <div className="images-container" >
           {galleries.map(gallery => (
-            <Gallery key={gallery.id} id={gallery.id} pic= {gallery.img} title = {gallery.title}/>
+            <Gallery apiUrl={this.state.apiUrl} key={gallery.id} id={gallery.id} pic= {gallery.img} title = {gallery.title}/>
           ))}
         </div>
 
         {this.state.showAddGalleryModal && 
-          <AddGallery open>
+          <AddGallery apiUrl={this.state.apiUrl} open>
             <Button variant="danger" className="btn-close" onClick={() => this.setState({showAddGalleryModal: false})}/>
           </AddGallery>
         }
 
         {this.state.showAddPhotoModal && 
-          <AddPhoto open>
+          <AddPhoto apiUrl={this.state.apiUrl} open>
             <Button variant="danger" className="btn-close" onClick={() => this.setState({showAddPhotoModal: false})}/>
           </AddPhoto>
         }

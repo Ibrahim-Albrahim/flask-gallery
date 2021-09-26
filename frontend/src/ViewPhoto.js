@@ -1,16 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal, Image} from 'react-bootstrap';
 import React, { Component, useState } from 'react'
-import Photo from './Photo';
-
-
-const apiUrl = 'http://localhost:5000/'
-
-
-function goToGallery (){
-  window.location.href='http://hemo7f12.ahhsn.com/gallery/public'
-}
-
 
 class ViewPhoto extends Component {
   constructor(props){
@@ -18,9 +8,6 @@ class ViewPhoto extends Component {
     this.state = {
       open : props.open,
     }
-  }
-
-  componentDidMount(){
   }
     
     render(){
