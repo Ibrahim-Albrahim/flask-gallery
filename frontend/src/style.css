@@ -70,6 +70,7 @@ a {
 }
 
 .images-container{
+
     margin-top: 16px;
     flex-wrap: wrap;
     display: flex;
@@ -78,22 +79,16 @@ a {
 }
 
 .gallery-container {
-    width: 400px;
-    height: 400px;
-    max-width: 400px;
-    max-height: 400px;
-    list-style-type: none;
-    flex: auto;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 1rem;
-    padding: 0.3rem;
-    margin: 0.3rem;
+    width: 340px;
+    height: 340px;
+    max-width: 340px;
+    max-height: 340px;
+    min-width: 340px;
+    min-height: 340px;
     position: relative;
-    margin-top: 1%;
+    margin: 16px;
 
 }
-
-
 
 .gallery-container:hover .gallery-img{
     opacity: 0.4;
