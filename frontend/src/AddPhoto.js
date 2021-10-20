@@ -66,7 +66,11 @@ class AddPhoto extends Component {
             </Modal.Header>
 
             <Modal.Body className="add-gallery-form">
-              <Form onSubmit={this.onFormSubmit} id="add-photo-form"  enctype="multipart/form-data">
+              <Form
+              onSubmit={this.onFormSubmit}
+              id="add-photo-form"
+              encType="multipart/form-data"
+              >
                 <Form.Group controlId="formFile" className="mb-3">
                   <div className="title-div" >
                     <Form.Label>Gallery Id:</Form.Label>

@@ -74,7 +74,7 @@ class AddGallery extends Component {
               <Form 
               onSubmit={this.onFormSubmit}
               id="add-gallery-form"
-              enctype="multipart/form-data"
+              encType="multipart/form-data"
               >
                 <Form.Group controlId="formFile" className="mb-3">
                   <div className="title-div" >
