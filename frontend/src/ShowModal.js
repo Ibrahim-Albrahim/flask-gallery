@@ -16,8 +16,12 @@ class ShowModal extends Component {
   }
 
   componentDidMount(){
+
+  }
+
+  getData () {
     var {galleryId} = this.state;
-    fetch(this.props.apiUrl+`${galleryId}/json`)
+    fetch(this.props.apiUrl+`${galleryId}`)
       .then(response => response.json())
       .then(json => {
         this.setState({
@@ -26,10 +30,18 @@ class ShowModal extends Component {
         })
       });
   }
+
+  makeIsLoadedFalse () {
+    this.setState({
+      isLoaded: false,
+    })
+  }
     
     render(){
       var {isLoaded , photos} = this.state;
-      // console.log(isLoaded,photos)
+
+      !this.state.isLoaded ? this.getData() :null
+
       return (
         <>
           <Modal
@@ -44,7 +56,7 @@ class ShowModal extends Component {
 
             <Modal.Body >
               {photos.map(photo => (
-                <Photo apiUrl={this.state.apiUrl} key={photo.id} id={photo.id} pic= {photo.img}/>
+                <Photo apiUrl={this.state.apiUrl} key={photo.id} id={photo.id} pic= {photo.img} makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)}/>
               ))}
             </Modal.Body>
 
