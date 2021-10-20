@@ -7,15 +7,10 @@ class AddGallery extends Component {
     super(props)
     this.state = {
       apiUrl : this.props.apiUrl,
-      open : props.open,
+      show : false,
       title : '',
       file : null,
     }
-
-    this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.fileSelectHandler = this.fileSelectHandler.bind(this);
-    this.titleChangeHandler = this.titleChangeHandler.bind(this);
-    
 
   }
 
@@ -36,9 +31,12 @@ class AddGallery extends Component {
       formData.append("file", file);
       formData.append("title", this.state.title);
 
+      this.props.makeIsLoadedFalse();
+      this.setState({show: false})
 
 
-      fetch(this.state.apiUrl+'gallery/create/json' , {
+
+      fetch(this.state.apiUrl+'gallery/create' , {
         method: 'POST',
         body: formData
       })
@@ -59,20 +57,25 @@ class AddGallery extends Component {
 
       return (
         <>
+          <a className="btn cold" onClick={() => this.setState({show: true})}> Add Gallery </a>
           <Modal
             className="add-gallery-modal"
-            show= {this.state.open}
+            show= {this.state.show}
             backdrop="static"
             keyboard={false}
           >
             <Modal.Header >
               <Modal.Title>New Gallery</Modal.Title>
-              {this.props.children}
+              <Button variant="danger" className="btn-close" onClick={() => this.setState({show: false})}/>
             </Modal.Header>
 
             <Modal.Body className="add-gallery-form">
 
-              <Form onSubmit={this.onFormSubmit} id="add-gallery-form"  enctype="multipart/form-data">
+              <Form 
+              onSubmit={this.onFormSubmit}
+              id="add-gallery-form"
+              enctype="multipart/form-data"
+              >
                 <Form.Group controlId="formFile" className="mb-3">
                   <div className="title-div" >
                     <Form.Label>Gallery title:</Form.Label>
