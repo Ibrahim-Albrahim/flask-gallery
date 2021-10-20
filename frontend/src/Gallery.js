@@ -16,13 +16,10 @@ class Gallery extends Component {
   }
 
   
-  clickDelete = () => fetch(this.state.apiUrl+'gallery/'+ this.props.id +'/delete' , {method: 'DELETE'})
-
-
-
-  
-
-
+  clickDelete = () => {
+    fetch(this.state.apiUrl+'gallery/'+ this.props.id +'/delete' , {method: 'GET'})
+    this.props.makeIsLoadedFalse();
+  }
 
   render(){
 

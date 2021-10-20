@@ -16,7 +16,10 @@ class Photo extends Component {
   }
 
   
-  clickDelete = () => fetch(this.state.apiUrl+'photo/'+ this.props.id +'/delete' , {method: 'DELETE'})
+  clickDelete = () => {
+    fetch(this.state.apiUrl+'photo/'+ this.props.id +'/delete' , {method: 'GET'})
+    this.props.makeIsLoadedFalse();
+  }
   
 
 
