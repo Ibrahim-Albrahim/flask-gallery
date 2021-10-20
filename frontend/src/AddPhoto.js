@@ -7,14 +7,10 @@ class AddPhoto extends Component {
     super(props)
     this.state = {
       apiUrl : this.props.apiUrl,
-      open : props.open,
+      show : false,
       galleryId : null,
       file : null,
     }
-
-    this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.fileSelectHandler = this.fileSelectHandler.bind(this);
-    this.galleryIdChangeHandler = this.galleryIdChangeHandler.bind(this);
   }
 
   fileSelectHandler = (event) => {
@@ -34,9 +30,12 @@ class AddPhoto extends Component {
     formData.append("file", file);
     formData.append("galleryId", this.state.galleryId);
 
+    this.props.makeIsLoadedFalse();
+    this.setState({show: false})
 
 
-    fetch(this.state.apiUrl+'photo/create/json' , {
+
+    fetch(this.state.apiUrl+'photo/create' , {
       method: 'POST',
       body: formData
     })
@@ -54,15 +53,16 @@ class AddPhoto extends Component {
     render(){
       return (
         <>
+          <a className="btn cold" onClick={() => this.setState({show: true})}> Add Photo </a>
           <Modal
             className="add-gallery-modal"
-            show= {this.state.open}
+            show= {this.state.show}
             backdrop="static"
             keyboard={false}
           >
             <Modal.Header >
               <Modal.Title>New Photo</Modal.Title>
-              {this.props.children}
+              <Button variant="danger" className="btn-close" onClick={() => this.setState({show: false})}/>
             </Modal.Header>
 
             <Modal.Body className="add-gallery-form">
