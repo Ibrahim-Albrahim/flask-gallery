@@ -34,6 +34,7 @@ class Gallery extends Component {
           <h3> {this.props.id} | {this.props.title} </h3>
           <ShowModal apiUrl={this.state.apiUrl} galleryId={this.props.id} title={this.props.title}/>
           <Button href="#" variant="success">Edit</Button>
+          {/* TODO show modal to confirm delete */}
           <Button variant="danger" className="danger" onClick={this.clickDelete}>Delete</Button>
         </div>
 

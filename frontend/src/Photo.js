@@ -36,6 +36,7 @@ class Photo extends Component {
           <h3> {this.props.title} </h3>
           <Button variant="primary" onClick={() => this.setState({showModal: true})}>View</Button>
           <Button href="#" variant="success">Edit</Button>
+          {/* TODO show modal to confirm delete */}
           <Button variant="danger" className="danger" onClick={this.clickDelete}>Delete</Button>
         </div>
 
