@@ -2,7 +2,7 @@
 body {
     background-color: #14141c;
     color: white;
-    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-family: sans-serif;
 }
 
 form {
@@ -170,11 +170,28 @@ a {
 }
 
 .add-gallery-form .gallery-title{
+    width: 140px;
+    min-width: 140px;
+    margin-left: 5%;
+    text-align: center;
+    color: black;
+}
+
+.add-gallery-form .gallery-id{
     width: 15%;
     margin-left: 5%;
     text-align: center;
     color: black;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  
+  
+  }/* hide arrow */
+
 
 .add-gallery-form .gallery-thum{
     width: 50%;
@@ -216,4 +233,17 @@ a {
 
   .view-photo-modal .img{
       margin: 0;
+  }
+
+
+  .spinning-bubbles{
+      margin-top: 10%;
+  }
+
+  .modal-body-show-modal{
+    margin-top: 16px;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
   }

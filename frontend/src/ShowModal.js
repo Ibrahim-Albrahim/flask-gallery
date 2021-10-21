@@ -2,6 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal, Image} from 'react-bootstrap';
 import React, { Component, useState } from 'react'
 import Photo from './Photo';
+import ReactLoading from 'react-loading';
+
 
 
 class ShowModal extends Component {
@@ -12,6 +14,7 @@ class ShowModal extends Component {
       open : props.open,
       galleryId : props.galleryId,
       photos : [],
+      isLoaded : false
     }
   }
 
@@ -54,10 +57,11 @@ class ShowModal extends Component {
               {this.props.children}
             </Modal.Header>
 
-            <Modal.Body >
-              {photos.map(photo => (
-                <Photo apiUrl={this.state.apiUrl} key={photo.id} id={photo.id} pic= {photo.img} makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)}/>
-              ))}
+            <Modal.Body className="modal-body-show-modal">
+              {!this.state.isLoaded ? <ReactLoading type="spinningBubbles" color="#ffffff" height={300} width={300}/>
+                :photos.map(photo => (
+                  <Photo apiUrl={this.state.apiUrl} key={photo.id} id={photo.id} pic= {photo.img} makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)}/>
+                ))}
             </Modal.Body>
 
           </Modal>

@@ -3,6 +3,8 @@ import Gallery from './Gallery';
 import AddGallery from './AddGallery';
 import AddPhoto from './AddPhoto'
 import { Button, Container, Row, Col, Image, Nav, Modal} from 'react-bootstrap';
+import ReactLoading from 'react-loading';
+
 
 
 class App extends Component {
@@ -14,10 +16,6 @@ class App extends Component {
       galleries: [],
       isLoaded: false,
     }
-  }
-
-  componentDidMount(){
-    // this.getData()
   }
 
   getData () {
@@ -40,27 +38,34 @@ class App extends Component {
   render(){
     var {isLoaded , galleries} = this.state;
 
+
+
     !this.state.isLoaded ? this.getData() :null
 
 
-    return (
-      <div className="app-header banner-two">
-        <header className="app-header banner">
-          <h1> 
-            MyGallery
-          </h1>
-          <div>
-              <AddGallery apiUrl={this.state.apiUrl}  makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)} />
-              <AddPhoto apiUrl={this.state.apiUrl}  makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)} />
-          </div>
-        </header>
 
-        <div className="images-container" >
-          {galleries.map(gallery => (
-            <Gallery apiUrl={this.state.apiUrl} key={gallery.id} id={gallery.id} pic= {gallery.img} title = {gallery.title} makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)}/>
-          ))}
-        </div>
+    return (
+
+      !this.state.isLoaded ? <ReactLoading type="spinningBubbles" color="#ffffff" height={300} width={300} className="spinning-bubbles"/>
+      : <div className="app-header banner-two">
+          <header className="app-header banner">
+            <h1> 
+              MyGallery
+            </h1>
+            <div>
+                <AddGallery apiUrl={this.state.apiUrl}  makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)} />
+                <AddPhoto apiUrl={this.state.apiUrl}  makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)} />
+            </div>
+          </header>
+
+          <div className="images-container" >
+            {galleries.map(gallery => (
+              <Gallery apiUrl={this.state.apiUrl} key={gallery.id} id={gallery.id} pic= {gallery.img} title = {gallery.title} makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)}/>
+            ))}
+          </div>
       </div>
+      
+
     );
   }
 }

@@ -29,7 +29,7 @@ class Photo extends Component {
     
     return (
       
-      <Col className="gallery-container bg-dark" id={this.props.id}>
+      <Col className="gallery-container" id={this.props.id}>
         <Image className="gallery-img" src={imgSrc} thumbnail />
 
         <div className="gallery-info" id="gallerybtns">

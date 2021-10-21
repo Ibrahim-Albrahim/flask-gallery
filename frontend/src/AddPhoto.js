@@ -74,7 +74,7 @@ class AddPhoto extends Component {
                 <Form.Group controlId="formFile" className="mb-3">
                   <div className="title-div" >
                     <Form.Label>Gallery Id:</Form.Label>
-                    <Form.Control className="gallery-title" type="number" placeholder="0" onChange={this.galleryIdChangeHandler} required />
+                    <Form.Control className="gallery-id" type="number" placeholder="0" onChange={this.galleryIdChangeHandler} required />
                   </div>
                   <div className="file-div">
                     <Form.Label>photo:</Form.Label>
