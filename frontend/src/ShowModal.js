@@ -11,10 +11,10 @@ class ShowModal extends Component {
     super(props)
     this.state = {
       apiUrl : this.props.apiUrl,
-      open : props.open,
       galleryId : props.galleryId,
       photos : [],
-      isLoaded : false
+      isLoaded : false,
+      show : false
     }
   }
 
@@ -43,22 +43,23 @@ class ShowModal extends Component {
     render(){
       var {isLoaded , photos} = this.state;
 
-      !this.state.isLoaded ? this.getData() :null
+      !isLoaded ? this.getData() :null
 
       return (
         <>
+          <Button variant="primary" onClick={() => this.setState({show: true})}>View</Button>
           <Modal
-            show= {this.state.open}
+            show= {this.state.show}
             backdrop="static"
             keyboard={false}
           >
             <Modal.Header >
               <Modal.Title>{this.props.title}</Modal.Title>
-              {this.props.children}
+              <Button variant="danger" className="btn-close" onClick={() => this.setState({show: false})}/>
             </Modal.Header>
 
             <Modal.Body className="modal-body-show-modal">
-              {!this.state.isLoaded ? <ReactLoading type="spinningBubbles" color="#ffffff" height={300} width={300}/>
+              {!isLoaded ? <ReactLoading type="spinningBubbles" color="#ffffff" height={300} width={300}/>
                 :photos.map(photo => (
                   <Photo apiUrl={this.state.apiUrl} key={photo.id} id={photo.id} pic= {photo.img} makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)}/>
                 ))}

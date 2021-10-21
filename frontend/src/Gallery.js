@@ -32,16 +32,11 @@ class Gallery extends Component {
 
         <div className="gallery-info" id="gallerybtns">
           <h3> {this.props.id} | {this.props.title} </h3>
-          <Button variant="primary" onClick={() => this.setState({showModal: true})}>View</Button>
+          <ShowModal apiUrl={this.state.apiUrl} galleryId={this.props.id} title={this.props.title}/>
           <Button href="#" variant="success">Edit</Button>
           <Button variant="danger" className="danger" onClick={this.clickDelete}>Delete</Button>
         </div>
 
-        {this.state.showModal && 
-        <ShowModal apiUrl={this.state.apiUrl} open galleryId={this.props.id} title={this.props.title}>
-          <Button variant="danger" className="btn-close" onClick={() => this.setState({showModal: false})}/>
-        </ShowModal>
-        }
       </Col>
 
     );

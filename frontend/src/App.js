@@ -40,13 +40,13 @@ class App extends Component {
 
 
 
-    !this.state.isLoaded ? this.getData() :null
+    !isLoaded ? this.getData() :null
 
 
 
     return (
 
-      !this.state.isLoaded ? <ReactLoading type="spinningBubbles" color="#ffffff" height={300} width={300} className="spinning-bubbles"/>
+      !isLoaded ? <ReactLoading type="spinningBubbles" color="#ffffff" height={300} width={300} className="spinning-bubbles"/>
       : <div className="app-header banner-two">
           <header className="app-header banner">
             <h1> 
