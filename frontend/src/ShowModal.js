@@ -41,7 +41,7 @@ class ShowModal extends Component {
   }
     
     render(){
-      var {isLoaded , photos} = this.state;
+      var {isLoaded , photos, show} = this.state;
 
       !isLoaded ? this.getData() :null
 
