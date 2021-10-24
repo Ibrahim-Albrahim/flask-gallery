@@ -36,8 +36,7 @@ class Gallery(db.Model):
     id = db.Column(db.Integer,  primary_key=True)
     title = db.Column(db.String(128), nullable=False)
     name = db.Column(db.String(128), nullable=False)
-    data = db.Column(db.LargeBinary, nullable=False) #Actual data, needed for Download
-    rendered_data = db.Column(db.Text, nullable=False)#Data to render the pic in browser
+    rendered_data = db.Column(db.Text, nullable=False)
     photos = relationship("Photo", back_populates="gallery")
 
 
@@ -50,12 +49,12 @@ class Photo(db.Model):
     __tablename__ = 'Photo'
     id = db.Column(db.Integer,  primary_key=True)
     name = db.Column(db.String(128), nullable=False)
-    data = db.Column(db.LargeBinary, nullable=False) #Actual data, needed for Download
-    rendered_data = db.Column(db.Text, nullable=False)#Data to render the pic in browser
+    full_size = db.Column(db.Text, nullable=False)
+    small_size = db.Column(db.Text, nullable=False)
     gallery_id = db.Column(Integer, ForeignKey('Gallery.id'))
     gallery = relationship("Gallery", back_populates="photos")
 
     def __repr__(self):
-        return f'Photo Id: {self.id} Pic Name: {self.name} Photo: {self.rendered_data} Gallery: {self.gallery} '
+        return f'Photo Id: {self.id} Pic Name: {self.name} Photo: {self.full_size} Gallery: {self.gallery} '
 
 

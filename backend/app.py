@@ -14,6 +14,8 @@ from models import Photo,Gallery, setup_db, db
 from flask_moment import Moment
 import base64
 
+from PIL import Image
+import io
 
 
 app = Flask(__name__)
@@ -26,6 +28,20 @@ CORS(app)
 def render_picture(data):
     render_pic = base64.b64encode(data).decode('ascii') 
     return render_pic
+
+
+def image_resize(file, size=1000):
+    img = Image.open(file)
+    img_size = img.size
+    img_ratio = size/img_size[0]
+    img.thumbnail((img_size[0]*img_ratio, img_size[1]*img_ratio), Image.ANTIALIAS)
+    return image_to_bytes(img)
+
+def image_to_bytes(image):
+    stream = io.BytesIO()
+    image.save(stream, format='PNG')
+    return stream.getvalue()
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -48,20 +64,22 @@ def show_gallery(gallery_id):
     data.append ({
         'id': photo.id,
         'file_name' : photo.name,
-        'img': photo.rendered_data,
+        'small_size': photo.small_size, 
+        'full_size' : photo.full_size,
     })
 
   return jsonify(data)
 
 @app.route('/gallery/create', methods=['POST'])
 def create_gallery():
-   file = request.files['file']
-   data = file.read()
-   render_file = render_picture(data)
    title = request.form['title']
+   file = request.files['file']
+   img_data = image_resize(file)
+   render_file = render_picture(img_data)
+
 
    try:
-    newFile = Gallery(name=file.filename, data=data, rendered_data=render_file, title=title)
+    newFile = Gallery(name=file.filename, rendered_data=render_file, title=title)
     db.session.add(newFile)
     db.session.commit() 
     result = {"success": True}
@@ -124,12 +142,17 @@ def delete_gallery(gallery_id):
 
 @app.route('/photo/create', methods=['POST'])
 def create_photo():
+   gallery_id = int(request.form['galleryId'])
    file = request.files['file']
    data = file.read()
-   render_file = render_picture(data)
-   gallery_id = int(request.form['galleryId'])
+   full_size = render_picture(data)
 
-   newFile = Photo(name=file.filename, data=data, rendered_data=render_file, gallery_id=gallery_id)
+   img_data = image_resize(file)
+   small_size = render_picture(img_data)
+   
+   
+
+   newFile = Photo(name=file.filename, small_size=small_size, full_size=full_size, gallery_id=gallery_id)
 
    try:
     db.session.add(newFile)
@@ -141,6 +164,8 @@ def create_photo():
     flash(f'An error occurred adding photo.')
    finally:
        db.session.close() 
+       result = {"success": True}
+       return jsonify(result)
 
 
 @app.route('/photo/<photo_id>/delete', methods=['DELETE','GET'])
@@ -166,80 +191,5 @@ def delete_photo(photo_id):
             return redirect(url_for('index')) 
 
 
-# Show in json 
-
-@app.route('/json', methods=['GET'])
-def show_galleries_json():
-    galleries=Gallery.query.all()
-    data = []
-    for gallery in galleries:
-        data.append({
-            'id': gallery.id,
-            'title' : gallery.title,
-            'img' : gallery.rendered_data
-        })
-    return jsonify(data)
-
-
-@app.route('/<gallery_id>/json' , methods=['GET'])
-def show_gallery_json(gallery_id):
-  gallery = Gallery.query.get(gallery_id)
-  data = []
-  for photo in gallery.photos:
-    gallery = Gallery.query.get(photo.gallery_id)
-    data.append ({
-        'id': photo.id,
-        'file_name' : photo.name,
-        'img': photo.rendered_data,
-    })
-
-  return jsonify(data)
-
-@app.route('/gallery/create/json', methods=['POST'])
-def create_gallery_json():
-   file = request.files['file']
-   data = file.read()
-   render_file = render_picture(data)
-   title = request.form['title']
-
-   try:
-    newFile = Gallery(name=file.filename, data=data, rendered_data=render_file, title=title)
-    db.session.add(newFile)
-    db.session.commit() 
-    result = {"success": True}
-    return jsonify(result)
-
-   except ImportError:
-    db.session.rollback()
-    result = {"success": False}
-    return jsonify(result)
-    
-   finally:
-       db.session.close() 
-
-
-@app.route('/photo/create/json', methods=['POST'])
-def create_photo_json():
-   file = request.files['file']
-   data = file.read()
-   render_file = render_picture(data)
-   gallery_id = int(request.form['galleryId'])
-
-   newFile = Photo(name=file.filename, data=data, rendered_data=render_file, gallery_id=gallery_id)
-
-   try:
-    db.session.add(newFile)
-    db.session.commit() 
-    flash(f'photo added successfully.')
-
-   except:
-    db.session.rollback()
-    flash(f'An error occurred adding photo.')
-   finally:
-       db.session.close() 
-
-
-   return redirect(url_for('index')) 
-
 if __name__ == '__main__':
-    app.run(host='192.168.43.41', port=5000, debug=True)
+    app.run()
