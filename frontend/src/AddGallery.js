@@ -1,6 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal, Image, Form} from 'react-bootstrap';
 import React, { Component, useState } from 'react'
+import ReactLoading from 'react-loading';
+
 
 class AddGallery extends Component {
   constructor(props){
@@ -10,6 +12,7 @@ class AddGallery extends Component {
       show : false,
       title : '',
       file : null,
+      uploading : false,
     }
 
   }
@@ -24,19 +27,16 @@ class AddGallery extends Component {
 
 
     
-    onFormSubmit = (event) => {
+    async onFormSubmit (event) {
       event.preventDefault();
       let file = this.state.file;
       const formData = new FormData();
       formData.append("file", file);
       formData.append("title", this.state.title);
 
-      this.props.makeIsLoadedFalse();
-      this.setState({show: false})
+      this.setState({uploading: true})
 
-
-
-      fetch(this.state.apiUrl+'gallery/create' , {
+      await fetch(this.state.apiUrl+'gallery/create' , {
         method: 'POST',
         body: formData
       })
@@ -48,12 +48,13 @@ class AddGallery extends Component {
       ).catch(
         error => console.log(error) // Handle the error response object
       )
+      
+      await this.props.makeIsLoadedFalse();
+      this.setState({uploading: false})
+      this.setState({show: false})
     };
     
     render(){
-
-
-
 
       return (
         <>
@@ -70,9 +71,10 @@ class AddGallery extends Component {
             </Modal.Header>
 
             <Modal.Body className="add-gallery-form">
-
+              {this.state.uploading ? <ReactLoading type="spinningBubbles" color="#ffffff" height={150} width={150} className="spinning-bubbles-add-gallery"/>
+              : null}
               <Form 
-              onSubmit={this.onFormSubmit}
+              onSubmit={this.onFormSubmit.bind(this)}
               id="add-gallery-form"
               encType="multipart/form-data"
               >

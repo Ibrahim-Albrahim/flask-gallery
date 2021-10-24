@@ -1,6 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal, Image, Form} from 'react-bootstrap';
 import React, { Component, useState } from 'react'
+import ReactLoading from 'react-loading';
+
 
 class AddPhoto extends Component {
   constructor(props){
@@ -10,6 +12,7 @@ class AddPhoto extends Component {
       show : false,
       galleryId : null,
       file : null,
+      uploading : false,
     }
   }
 
@@ -23,19 +26,16 @@ class AddPhoto extends Component {
 
 
   
-  onFormSubmit = (event) => {
+  async onFormSubmit (event) {
     event.preventDefault();
     let file = this.state.file;
     const formData = new FormData();
     formData.append("file", file);
     formData.append("galleryId", this.state.galleryId);
 
-    this.props.makeIsLoadedFalse();
-    this.setState({show: false})
+    this.setState({uploading: true})
 
-
-
-    fetch(this.state.apiUrl+'photo/create' , {
+    await fetch(this.state.apiUrl+'photo/create' , {
       method: 'POST',
       body: formData
     })
@@ -43,10 +43,14 @@ class AddPhoto extends Component {
       document.getElementById("add-photo-form").reset();
       return;
     }).then(
-      success => console.log(success) // Handle the success response object
+      success => console.log(success)
     ).catch(
-      error => console.log(error) // Handle the error response object
+      error => console.log(error)
     )
+
+    await this.props.makeIsLoadedFalse();
+    this.setState({uploading: false})
+    this.setState({show: false})
   };
 
     
@@ -66,8 +70,9 @@ class AddPhoto extends Component {
             </Modal.Header>
 
             <Modal.Body className="add-gallery-form">
+              {this.state.uploading ? <ReactLoading type="spinningBubbles" color="#ffffff" height={150} width={150} className="spinning-bubbles-add-gallery"/>: null}
               <Form
-              onSubmit={this.onFormSubmit}
+              onSubmit={this.onFormSubmit.bind(this)}
               id="add-photo-form"
               encType="multipart/form-data"
               >
