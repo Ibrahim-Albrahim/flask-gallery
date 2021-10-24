@@ -16,9 +16,9 @@ class Gallery extends Component {
   }
 
   
-  clickDelete = () => {
-    fetch(this.state.apiUrl+'gallery/'+ this.props.id +'/delete' , {method: 'GET'})
-    this.props.makeIsLoadedFalse();
+  async clickDelete () {
+    await fetch(this.state.apiUrl+'gallery/'+ this.props.id +'/delete' , {method: 'GET'})
+    await this.props.makeIsLoadedFalse();
   }
 
   render(){
