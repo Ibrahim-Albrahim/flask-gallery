@@ -32,6 +32,8 @@ def render_picture(data):
 
 def image_resize(file, size=1000):
     img = Image.open(file)
+    img.load()
+    img.split()
     img_size = img.size
     img_ratio = size/img_size[0]
     img.thumbnail((img_size[0]*img_ratio, img_size[1]*img_ratio), Image.ANTIALIAS)
