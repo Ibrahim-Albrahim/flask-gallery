@@ -18,10 +18,6 @@ class ShowModal extends Component {
     }
   }
 
-  componentDidMount(){
-
-  }
-
   getData () {
     var {galleryId} = this.state;
     fetch(this.props.apiUrl+`${galleryId}`)
@@ -43,7 +39,7 @@ class ShowModal extends Component {
     render(){
       var {isLoaded , photos, show} = this.state;
 
-      !isLoaded ? this.getData() :null
+      !isLoaded & show ? this.getData() :null
 
       return (
         <>
