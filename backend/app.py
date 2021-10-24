@@ -133,11 +133,9 @@ def delete_gallery(gallery_id):
             db.session.rollback()
         finally:
             db.session.close()
-        if error_on_delete:
-            flash(f'An error occurred deleting gallery {gallery_title}.')
-            print("Error in delete_gallery()")
-            abort(500)
-        else: return redirect(url_for('index')) 
+            result = {"success": True}
+            return jsonify(result)
+
 
 
 @app.route('/photo/create', methods=['POST'])
