@@ -61,7 +61,7 @@ class ShowModal extends Component {
             <Modal.Body className="modal-body-show-modal">
               {!isLoaded ? <ReactLoading type="spinningBubbles" color="#ffffff" height={300} width={300}/>
                 :photos.map(photo => (
-                  <Photo apiUrl={this.state.apiUrl} key={photo.id} id={photo.id} pic= {photo.img} makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)}/>
+                  <Photo apiUrl={this.state.apiUrl} key={photo.id} id={photo.id} smallSize= {photo.small_size} fullSize= {photo.full_size} makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)}/>
                 ))}
             </Modal.Body>
 

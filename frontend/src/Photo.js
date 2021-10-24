@@ -25,7 +25,7 @@ class Photo extends Component {
 
   render(){
 
-    let imgSrc = "data:;base64,"+this.props.pic;
+    let imgSrc = "data:;base64,"+this.props.smallSize;
     
     return (
       
@@ -41,7 +41,7 @@ class Photo extends Component {
         </div>
 
         {this.state.showModal && 
-        <ViewPhoto open pic={this.props.pic} >
+        <ViewPhoto open pic={this.props.fullSize} >
           <Button variant="danger" className="btn-close" onClick={() => this.setState({showModal: false})}/>
         </ViewPhoto>
         }

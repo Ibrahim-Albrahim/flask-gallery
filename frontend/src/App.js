@@ -63,7 +63,7 @@ class App extends Component {
               <Gallery apiUrl={this.state.apiUrl} key={gallery.id} id={gallery.id} pic= {gallery.img} title = {gallery.title} makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)}/>
             ))}
           </div>
-      </div>
+        </div>
       
 
     );
