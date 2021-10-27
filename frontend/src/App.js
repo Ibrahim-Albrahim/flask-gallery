@@ -12,7 +12,8 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      apiUrl: 'http://192.168.43.41:5000/',
+      // apiUrl: 'http://192.168.43.41:5000/',
+      apiUrl: 'http://localhost:5000/',
       galleries: [],
       isLoaded: false,
     }
