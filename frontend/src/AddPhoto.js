@@ -70,7 +70,7 @@ class AddPhoto extends Component {
             </Modal.Header>
 
             <Modal.Body className="add-gallery-form">
-              {this.state.uploading ? <ReactLoading type="spinningBubbles" color="#ffffff" height={150} width={150} className="spinning-bubbles-add-gallery"/>: null}
+              {this.state.uploading ? <ReactLoading type="spinningBubbles" color="#000000" height={150} width={150} className="spinning-bubbles-add-gallery"/>: null}
               <Form
               onSubmit={this.onFormSubmit.bind(this)}
               id="add-photo-form"
@@ -83,7 +83,7 @@ class AddPhoto extends Component {
                   </div>
                   <div className="file-div">
                     <Form.Label>photo:</Form.Label>
-                    <Form.Control type="file" className="gallery-thum" onChange={this.fileSelectHandler} required/>
+                    <Form.Control type="file" className="gallery-thum" onChange={this.fileSelectHandler} accept="image/*" required/>
                   </div>
                   <Button variant="primary" type="submit">Add</Button>
                 </Form.Group>
