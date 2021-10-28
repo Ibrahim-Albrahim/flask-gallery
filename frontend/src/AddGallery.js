@@ -2,6 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal, Image, Form} from 'react-bootstrap';
 import React, { Component, useState } from 'react'
 import ReactLoading from 'react-loading';
+import './css/addgallery.css';
+
 
 
 class AddGallery extends Component {
@@ -64,14 +66,16 @@ class AddGallery extends Component {
             show= {this.state.show}
             backdrop="static"
             keyboard={false}
+            aria-labelledby="contained-modal-title-vcenter"
+            size="sm"
+            onHide={() => this.setState({show:false})}
           >
-            <Modal.Header >
+            <Modal.Header closeButton>
               <Modal.Title>New Gallery</Modal.Title>
-              <Button variant="danger" className="btn-close" onClick={() => this.setState({show: false})}/>
             </Modal.Header>
 
-            <Modal.Body className="add-gallery-form">
-              {this.state.uploading ? <ReactLoading type="spinningBubbles" color="#000000" height={150} width={150} className="spinning-bubbles-add-gallery"/>
+            <Modal.Body>
+              {this.state.uploading ? <ReactLoading type="spinningBubbles" color="#000000" height={150} width={150} className="spinning-bubbles"/>
               : null}
               <Form 
               onSubmit={this.onFormSubmit.bind(this)}
@@ -80,11 +84,11 @@ class AddGallery extends Component {
               >
                 <Form.Group controlId="formFile" className="mb-3">
                   <div className="title-div" >
-                    <Form.Label>Gallery title:</Form.Label>
+                    <Form.Label className="gallery-labels">Gallery title:</Form.Label>
                     <Form.Control className="gallery-title" type="text" placeholder="title" onChange={this.titleChangeHandler} required />
                   </div>
                   <div className="file-div">
-                    <Form.Label>Gallery photo:</Form.Label>
+                    <Form.Label className="gallery-labels">Gallery photo:</Form.Label>
                     <Form.Control type="file" className="gallery-thum" onChange={this.fileSelectHandler} name="inputFile" accept="image/*" required/>
                   </div>
                   <Button variant="primary" type="submit">Add</Button>
@@ -92,7 +96,6 @@ class AddGallery extends Component {
               </Form>
               
             </Modal.Body>
-            
 
           </Modal>
         </>

@@ -1,0 +1,44 @@
+@keyframes modalFade {
+    from {transform: translateY(-50%);opacity: 0;}
+    to {transform: translateY(0);opacity: 1;}
+  }
+  
+  .modal {
+    animation-name: modalFade;
+    animation-duration: .5s;
+  }
+
+.modal-header .btn-close{
+  margin-right: 1%;
+}
+.modal-title{
+  margin-left: 1%;
+}
+
+.modal-dialog{
+  background-color: rgba(0, 0, 0, 85%);
+}
+
+
+.modal-body{
+  place-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+}
+
+
+.modal-fullscreen {
+  width: 100vw;
+  max-width: none;
+  height: 100%; 
+}
+
+.modal-fullscreen .modal-content {
+  height: unset;
+}
+
+.col{
+  flex: none;
+}

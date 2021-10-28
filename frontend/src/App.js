@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import Gallery from './Gallery';
 import AddGallery from './AddGallery';
 import AddPhoto from './AddPhoto'
-import { Button, Container, Row, Col, Image, Nav, Modal} from 'react-bootstrap';
 import ReactLoading from 'react-loading';
+import './css/app.css';
 
 
 

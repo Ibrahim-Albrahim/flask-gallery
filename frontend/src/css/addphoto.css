@@ -1,0 +1,55 @@
+.title-div{
+    display: flex;
+    align-items: center;
+    margin-bottom: 5%;
+
+}
+
+.file-div{
+    display: flex;
+    align-items: center;
+}
+
+
+.spinning-bubbles{
+  position: absolute;
+  margin-top: -10%;
+}
+
+
+.body{
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+label{
+  width: 125px;
+}
+
+.gallery-id{
+  text-align: center
+}
+
+
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  }/* hide arrow */
+
+
+
+
+
+@keyframes modalFade {
+    from {transform: translateY(-50%);opacity: 0;}
+    to {transform: translateY(0);opacity: 1;}
+  }
+  
+  .modal {
+    animation-name: modalFade;
+    animation-duration: .5s;
+  }

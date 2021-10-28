@@ -1,0 +1,47 @@
+.title-div{
+    display: flex;
+    align-items: center;
+    margin-bottom: 5%;
+
+}
+
+.file-div{
+    display: flex;
+    align-items: center;
+}
+
+
+.spinning-bubbles{
+  position: absolute;
+  margin-top: -10%;
+}
+
+
+.body{
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+.gallery-labels{
+  width: 185px;
+}
+
+.gallery-title{
+  text-align: center;
+}
+
+
+
+
+
+
+@keyframes modalFade {
+    from {transform: translateY(-50%);opacity: 0;}
+    to {transform: translateY(0);opacity: 1;}
+  }
+  
+  .modal {
+    animation-name: modalFade;
+    animation-duration: .5s;
+  }

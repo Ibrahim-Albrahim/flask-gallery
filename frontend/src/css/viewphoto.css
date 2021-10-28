@@ -1,0 +1,11 @@
+.modal-dialog{
+    margin-top: 0;
+}
+
+.modal::-webkit-scrollbar{
+    display: none;
+}
+
+.view-photo-modal{
+    background-color: rgba(0, 0, 0, 95%);
+}

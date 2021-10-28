@@ -1,8 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Modal, Image} from 'react-bootstrap';
-import React, { Component, useState } from 'react'
+import {Button, Modal} from 'react-bootstrap';
+import React, {Component} from 'react'
 import Photo from './Photo';
 import ReactLoading from 'react-loading';
+import './css/showmodal.css';
+
 
 
 
@@ -47,14 +49,16 @@ class ShowModal extends Component {
           <Modal
             show= {this.state.show}
             backdrop="static"
+            fullscreen={true}
             keyboard={false}
+            aria-labelledby="contained-modal-title-vcenter"
+            onHide={() => this.setState({show:false})}
           >
-            <Modal.Header >
+            <Modal.Header closeButton>
               <Modal.Title>{this.props.title}</Modal.Title>
-              <Button variant="danger" className="btn-close" onClick={() => this.setState({show: false})}/>
             </Modal.Header>
 
-            <Modal.Body className="modal-body-show-modal">
+            <Modal.Body>
               {!isLoaded ? <ReactLoading type="spinningBubbles" color="#ffffff" height={300} width={300}/>
                 :photos.map(photo => (
                   <Photo apiUrl={this.state.apiUrl} key={photo.id} id={photo.id} smallSize= {photo.small_size} fullSize= {photo.full_size} makeIsLoadedFalse={this.makeIsLoadedFalse.bind(this)}/>

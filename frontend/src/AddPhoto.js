@@ -2,6 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal, Image, Form} from 'react-bootstrap';
 import React, { Component, useState } from 'react'
 import ReactLoading from 'react-loading';
+import './css/addphoto.css';
+
 
 
 class AddPhoto extends Component {
@@ -63,14 +65,16 @@ class AddPhoto extends Component {
             show= {this.state.show}
             backdrop="static"
             keyboard={false}
+            aria-labelledby="contained-modal-title-vcenter"
+            size="sm"
+            onHide={() => this.setState({show:false})}
           >
-            <Modal.Header >
+            <Modal.Header closeButton>
               <Modal.Title>New Photo</Modal.Title>
-              <Button variant="danger" className="btn-close" onClick={() => this.setState({show: false})}/>
             </Modal.Header>
 
-            <Modal.Body className="add-gallery-form">
-              {this.state.uploading ? <ReactLoading type="spinningBubbles" color="#000000" height={150} width={150} className="spinning-bubbles-add-gallery"/>: null}
+            <Modal.Body>
+              {this.state.uploading ? <ReactLoading type="spinningBubbles" color="#000000" height={150} width={150} className="spinning-bubbles"/>: null}
               <Form
               onSubmit={this.onFormSubmit.bind(this)}
               id="add-photo-form"

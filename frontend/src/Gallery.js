@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import { Button, Container, Row, Col, Image, Nav, Modal} from 'react-bootstrap';
+import {Button,Col, Image} from 'react-bootstrap';
 import ShowModal from './ShowModal';
+import './css/gallery.css';
+
 
 class Gallery extends Component {
   constructor(props){
