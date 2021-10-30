@@ -1,22 +1,17 @@
 import os
 from flask import (Flask,
-                render_template,
                 request,
                 flash,
                 redirect,
                 url_for,
-                session,
                 abort,
-                jsonify,
-                _request_ctx_stack)
+                jsonify)
 from flask_cors import CORS
-from models import Photo,Gallery, setup_db, db
+from models import (Photo,Gallery, setup_db, db)
 from flask_moment import Moment
 import base64
-
 from PIL import Image
 import io
-
 
 app = Flask(__name__)
 moment = Moment(app)
@@ -28,7 +23,6 @@ CORS(app)
 def render_picture(data):
     render_pic = base64.b64encode(data).decode('ascii') 
     return render_pic
-
 
 def image_resize(file, size=1000):
     img = Image.open(file)
@@ -44,7 +38,6 @@ def image_to_bytes(image):
     image.save(stream, format='PNG')
     return stream.getvalue()
 
-
 @app.route('/', methods=['GET'])
 def index():
     galleries=Gallery.query.all()
@@ -53,8 +46,7 @@ def index():
         data.append({
             'id': gallery.id,
             'title' : gallery.title,
-            'img' : gallery.rendered_data
-        })
+            'img' : gallery.rendered_data})
     return jsonify(data)
 
 @app.route('/<gallery_id>' , methods=['GET'])
@@ -67,9 +59,7 @@ def show_gallery(gallery_id):
         'id': photo.id,
         'file_name' : photo.name,
         'small_size': photo.small_size, 
-        'full_size' : photo.full_size,
     })
-
   return jsonify(data)
 
 @app.route('/gallery/create', methods=['POST'])
@@ -79,19 +69,16 @@ def create_gallery():
    img_data = image_resize(file)
    render_file = render_picture(img_data)
 
-
    try:
     newFile = Gallery(name=file.filename, rendered_data=render_file, title=title)
     db.session.add(newFile)
     db.session.commit() 
     result = {"success": True}
     return jsonify(result)
-
    except ImportError:
     db.session.rollback()
     result = {"success": False}
     return jsonify(result)
-    
    finally:
        db.session.close() 
 
@@ -113,32 +100,51 @@ def edit_gallery_submission(gallery_id):
         finally:
             db.session.close()
         if error_on_delete:
-            flash(f'An error occurred editing gallery {gallery_title}.')
-            print("Error in edit_gallery()")
             abort(500)
         else:
-            return redirect(url_for('index')) 
+            result = {"success": True}
+            return jsonify(result) 
 
 @app.route('/gallery/<gallery_id>/delete', methods=['DELETE','GET'])
 def delete_gallery(gallery_id):
     gallery = Gallery.query.get(gallery_id)
     if not gallery:
-        return redirect(url_for('index'))
+        result = {"success": False}
+        return jsonify(result)
     else:
         error_on_delete = False
-        gallery_title = gallery.title
         try:
             db.session.delete(gallery)
             db.session.commit()
         except:
             error_on_delete = True
             db.session.rollback()
-        finally:
-            db.session.close()
+        if error_on_delete:
+            abort(500)
+        else:
             result = {"success": True}
             return jsonify(result)
 
-
+@app.route('/photo/<photo_id>', methods=['GET'])
+def show_photo(photo_id):
+    photo = Photo.query.get(photo_id)
+    data =  ({
+            'id': photo.id,
+            'FileName' : photo.name,
+            'DateTime': photo.date_time, 
+            'ImageFormat': photo.img_format, 
+            'Size': photo.img_size, 
+            'Make': photo.make +' '+'('+ str(photo.model)+')', 
+            'Model': photo.lens_model, 
+            'Software': photo.software, 
+            'ShutterSpeedValue': photo.shutter, 
+            'ApertureValue': photo.aperture, 
+            'FocalLengthIn35mmFilm': photo.lens_lenth, 
+            'FNumber': photo.f_number, 
+            'ISO': photo.iso_speed, 
+            'full_size' : photo.full_size,
+        })
+    return jsonify(data)
 
 @app.route('/photo/create', methods=['POST'])
 def create_photo():
@@ -146,22 +152,55 @@ def create_photo():
    file = request.files['file']
    data = file.read()
    full_size = render_picture(data)
-
    img_data = image_resize(file)
    small_size = render_picture(img_data)
    
-   
+   img = Image.open(file)
+   img_size = str(img.width) +' X '+ str(img.height)   
+   try:shutter = img.getexif()[37377]
+   except:shutter = ""
+   try:aperture = img.getexif()[37378]
+   except :aperture = ""
+   try:date_time = img.getexif()[306]
+   except : date_time = ""
+   try:make = img.getexif()[271]
+   except : make = ""
+   try:model = img.getexif()[272]
+   except : model = ""
+   try:f_number = img.getexif()[33437]
+   except : f_number = ""
+   try:lens_model = img.getexif()[0xA434]
+   except : lens_model = ""
+   try:img_format = img.format
+   except : img_format = ""
+   try:software = img.getexif()[305]
+   except : software = ''
+   try:lens_lenth = img.getexif()[41989]
+   except:lens_lenth = 0
+   try:iso_speed = img.getexif()[34867]
+   except: iso_speed = 0
 
-   newFile = Photo(name=file.filename, small_size=small_size, full_size=full_size, gallery_id=gallery_id)
-
+   photo = Photo()
+   photo.name = file.filename
+   photo.full_size = full_size
+   photo.small_size = small_size
+   photo.gallery_id = gallery_id
+   photo.shutter = str(shutter)
+   photo.aperture=str(aperture)
+   photo.date_time=date_time
+   photo.img_size=img_size
+   photo.make=make
+   photo.model=model
+   photo.f_number=str(f_number)
+   photo.lens_model=lens_model
+   photo.img_format=img_format  
+   photo.lens_lenth=str(lens_lenth)
+   photo.iso_speed=str(iso_speed)
+   photo.software=software
    try:
-    db.session.add(newFile)
-    db.session.commit() 
-    flash(f'photo added successfully.')
-
-   except:
-    db.session.rollback()
-    flash(f'An error occurred adding photo.')
+       db.session.add(photo)
+       db.session.commit() 
+   except:db.session.rollback()
    finally:
        db.session.close() 
        result = {"success": True}
@@ -184,11 +223,10 @@ def delete_photo(photo_id):
         finally:
             db.session.close()
         if error_on_delete:
-            flash(f'An error occurred deleting photo {photo_id}.')
-            print("Error in delete_photo()")
             abort(500)
         else:
-            return redirect(url_for('index')) 
+            result = {"success": True}
+            return jsonify(result)
 
 
 if __name__ == '__main__':

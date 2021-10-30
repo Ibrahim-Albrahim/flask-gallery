@@ -20,7 +20,7 @@ class Photo extends Component {
         <Image className="gallery-img" src={imgSrc} thumbnail />
         <div className="gallery-info" id="gallerybtns">
           <h3> ID: {this.props.id} </h3>
-          <ViewPhoto pic={this.props.fullSize} />
+          <ViewPhoto pic={this.props.fullSize} apiUrl={this.state.apiUrl} photoId={this.props.id} />
           <Button href="#" variant="success">Edit</Button>
           {/* TODO show modal to confirm delete */}
           <Button variant="danger" className="danger" onClick={this.clickDelete.bind(this)}>Delete</Button>
