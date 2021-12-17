@@ -1,0 +1,26 @@
+%faIcons {
+    font-size: 50px;
+    margin: 8px;
+    &:hover{
+        transform: scale(1.5);
+        cursor: pointer;
+    }
+}
+
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 5%;
+    width: 100%;
+    text-align: center;
+
+    .faInstagram{
+        @extend %faIcons;
+        color: #833AB4;
+    }
+    .faSnapchatSquare{
+        @extend %faIcons;
+        color: #FFFC00;
+        
+    }
+}
