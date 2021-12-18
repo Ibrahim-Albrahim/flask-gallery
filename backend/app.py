@@ -59,6 +59,7 @@ def show_gallery(gallery_id):
         'id': photo.id,
         'file_name' : photo.name,
         'small_size': photo.small_size, 
+        'gallery_title': gallery.title,
     })
   return jsonify(data)
 
@@ -130,6 +131,7 @@ def show_photo(photo_id):
     photo = Photo.query.get(photo_id)
     data =  ({
             'id': photo.id,
+            'gallery_id':photo.gallery_id,
             'FileName' : photo.name,
             'DateTime': photo.date_time, 
             'ImageFormat': photo.img_format, 
