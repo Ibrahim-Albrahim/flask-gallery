@@ -5,13 +5,15 @@ body {
 }
 
 #root{
-  padding: 10%;
-  justify-content: space-between;
-  flex-direction: column;
+  padding: 5%;
 }
 
 .spinning-bubbles{
-  margin-left: 30vw;
+  position: absolute;
+  left: 40vw;
+  top: 30vh;
+  width: 100%;
+  text-align: center;
 }
 
 .home-container{
@@ -71,5 +73,5 @@ body {
       .slider , .spinning-bubbles { margin: 0; }
       .view-gallery-photo         { margin-bottom: 20px; }
   }
-  .slick-dots , .slick-arrow{ visibility: hidden; }
+  // .slick-dots , .slick-arrow{ visibility: hidden; }
 }

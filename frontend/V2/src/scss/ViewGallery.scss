@@ -1,3 +1,12 @@
+.faArrowAltCircleLeft{
+    font-size: 50px;
+    margin-right: 12px;    
+    
+    &:hover{
+        color: white;
+        transform: scale(1.2);
+    }
+}
 .view-gallery-container{
 
     .header{
@@ -9,20 +18,15 @@
         a{
             color: wheat;      
         }
-        .faArrowAltCircleLeft{
-            font-size: 50px;
-            margin-right: 12px;    
-            
-            &:hover{
-                color: white;
-                transform: scale(1.2);
-            }
-        }
         
     }
 
     .spinning-bubbles{
-        margin-left: 30vw;
+        position: absolute;
+        left: 40vw;
+        top: 30vh;
+        width: 100%;
+        text-align: center;
     }
 
     .slider{
