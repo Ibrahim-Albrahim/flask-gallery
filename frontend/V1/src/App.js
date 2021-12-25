@@ -13,7 +13,7 @@ class App extends Component {
     super(props);
     this.state = {
       // apiUrl: 'http://192.168.43.41:5000/',
-      apiUrl: 'http://localhost:5000/',
+      apiUrl: 'http://hemo7f12.me:5000/',
       galleries: [],
       isLoaded: false,
     }
@@ -47,8 +47,9 @@ class App extends Component {
 
     return (
 
-      !isLoaded ? <ReactLoading type="spinningBubbles" color="#ffffff" height={300} width={300} className="spinning-bubbles"/>
-      : <div className="app-header banner-two">
+      // !isLoaded ? <ReactLoading type="spinningBubbles" color="#ffffff" height={300} width={300} className="spinning-bubbles"/>
+      // : 
+      <div className="app-header banner-two">
           <header className="app-header banner">
             <h1> 
               MyGallery
