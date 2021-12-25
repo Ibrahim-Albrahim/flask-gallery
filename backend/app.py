@@ -232,4 +232,4 @@ def delete_photo(photo_id):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="31.220.62.4" , cert="adhoc")
