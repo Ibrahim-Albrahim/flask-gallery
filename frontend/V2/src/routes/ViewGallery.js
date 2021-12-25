@@ -1,5 +1,5 @@
 import React, { useState, useEffect }  from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import '../scss/ViewGallery.scss'
 import { Image } from 'react-bootstrap';
@@ -9,10 +9,10 @@ import "slick-carousel/slick/slick-theme.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft, faEye } from '@fortawesome/free-solid-svg-icons'
 import Footer from './components/Footer'
+import { apiUrl } from '../config';
 
 const ViewGallery = () => {
     const [photos , setPhotos] = useState({photos:[], isLoaded : false});
-    const apiUrl = 'http://localhost:5000/';
     let { galleryId } = useParams();
     const settings = {
       className:'slider',
@@ -40,21 +40,21 @@ const ViewGallery = () => {
       },[galleryId]);
 
     return <div className='view-gallery-container'>
+                  <Link to='/'><FontAwesomeIcon className='faArrowAltCircleLeft' icon={faArrowAltCircleLeft} /></Link>
                 {photos.isLoaded? <div className='header'>
-                  <a href='/'><FontAwesomeIcon className='faArrowAltCircleLeft' icon={faArrowAltCircleLeft} /></a>
                   <h1>{galleryId} | {photos.photos[0].gallery_title}</h1>
                   </div>
                 : <ReactLoading type="spinningBubbles" color="#ffffff" height={300} width={300} className="spinning-bubbles"/>}
 
                 <Slider {...settings}>
                   {photos.photos.map(photo => (
-                    <a href={'/photo/'+photo.id} ><div className='view-gallery-photo'>
+                    <Link to={'/photo/'+photo.id} ><div className='view-gallery-photo'>
                       <Image src={"data:;base64,"+photo.small_size}/>
                       <div className="gallery-info">
                         <FontAwesomeIcon className='faEye' icon={faEye} />
                         <h3> ID: {photo.id} </h3>
                       </div>
-                    </div></a>
+                    </div></Link>
                   ))}
               </Slider>
               <Footer />

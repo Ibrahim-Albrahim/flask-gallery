@@ -1,15 +1,15 @@
 import React, { useState, useEffect }  from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import {Image} from 'react-bootstrap';
 import ReactLoading from 'react-loading';
 import '../scss/ViewPhoto.scss'
 import RcViewer from '@hanyk/rc-viewer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
+import { apiUrl } from '../config';
 
 const ViewGallery = () => {
   const [photos , setPhotos] = useState({photos:[],isLoaded: false});
-  const apiUrl = 'http://localhost:5000/';
   let { photoId } = useParams();
 
 
@@ -43,9 +43,9 @@ const ViewGallery = () => {
   const page = 
   <div className='view-photo-container'>
     <h5>Click Photo to View</h5>
-    <a href={'/gallery/'+photos.photos.gallery_id}><FontAwesomeIcon className='faArrowAltCircleLeft' icon={faArrowAltCircleLeft} /></a>
     {photos.isLoaded? 
     <div className='view-photo-details'>
+      <Link to={'/gallery/'+photos.photos.gallery_id}><FontAwesomeIcon className='faArrowAltCircleLeft' icon={faArrowAltCircleLeft} /></Link>
       <RcViewer options={options}> <Image src={"data:;base64,"+photos.photos.full_size}/> </RcViewer>
       <ul>
         <li><pre><span>ID:         {photos.photos.id}</span></pre></li>
