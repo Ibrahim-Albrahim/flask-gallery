@@ -15,9 +15,9 @@ ReactDOM.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="*" element={<NoPage />} />
       <Route path="gallery/:galleryId" element={<ViewGallery />} />
       <Route path="photo/:photoId" element={<ViewPhoto />} />
+      <Route path="*" element={<NoPage />} />
     </Routes>
   </BrowserRouter>,
   document.getElementById('root')
