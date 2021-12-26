@@ -48,7 +48,7 @@ const ViewGallery = () => {
 
                 <Slider {...settings}>
                   {photos.photos.map(photo => (
-                    <Link to={'/photo/'+photo.id} ><div className='view-gallery-photo'>
+                    <Link key={photo.id} to={'/photo/'+photo.id} ><div className='view-gallery-photo'>
                       <Image src={"data:;base64,"+photo.small_size}/>
                       <div className="gallery-info">
                         <FontAwesomeIcon className='faEye' icon={faEye} />

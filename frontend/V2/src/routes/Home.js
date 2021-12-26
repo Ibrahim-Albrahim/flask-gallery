@@ -37,13 +37,13 @@ const Home = () => {
 
     fetchData();
   },[]);
-   
+
   return (
 
     galleries.isLoaded ? <div className="home-container">
           <Slider {...settings}>
             {galleries.galleries.map(gallery => (
-              <Link to={'gallery/'+gallery.id} >
+              <Link key={gallery.id} to={'gallery/'+gallery.id} >
                 <div className='view-gallery-photo'>
                 <Image src={"data:;base64,"+gallery.img}/>
                 <div className="gallery-info">
