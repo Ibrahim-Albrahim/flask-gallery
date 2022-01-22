@@ -1,3 +1,4 @@
+from itertools import count
 import os
 from flask import (Flask,
                 request,
@@ -65,23 +66,25 @@ def show_gallery(gallery_id):
 
 @app.route('/gallery/create', methods=['POST'])
 def create_gallery():
-   title = request.form['title']
-   file = request.files['file']
-   img_data = image_resize(file)
-   render_file = render_picture(img_data)
+   if request.form['password'] == '' :
+    title = request.form['title']
+    file = request.files['file']
+    img_data = image_resize(file)
+    render_file = render_picture(img_data)
 
-   try:
-    newFile = Gallery(name=file.filename, rendered_data=render_file, title=title)
-    db.session.add(newFile)
-    db.session.commit() 
-    result = {"success": True}
-    return jsonify(result)
-   except ImportError:
-    db.session.rollback()
-    result = {"success": False}
-    return jsonify(result)
-   finally:
-       db.session.close() 
+    try:
+        newFile = Gallery(name=file.filename, rendered_data=render_file, title=title)
+        db.session.add(newFile)
+        db.session.commit() 
+        result = {"success": True}
+        return jsonify(result)
+    except ImportError:
+        db.session.rollback()
+        result = {"success": False}
+        return jsonify(result)
+    finally:
+        db.session.close() 
+   else : abort(404)
 
 @app.route('/<gallery_id>/edit', methods=['PATCH','POST'])
 def edit_gallery_submission(gallery_id):
@@ -150,63 +153,68 @@ def show_photo(photo_id):
 
 @app.route('/photo/create', methods=['POST'])
 def create_photo():
-   gallery_id = int(request.form['galleryId'])
-   file = request.files['file']
-   data = file.read()
-   full_size = render_picture(data)
-   img_data = image_resize(file)
-   small_size = render_picture(img_data)
-   
-   img = Image.open(file)
-   img_size = str(img.width) +' X '+ str(img.height)   
-   try:shutter = img.getexif()[37377]
-   except:shutter = ""
-   try:aperture = img.getexif()[37378]
-   except :aperture = ""
-   try:date_time = img.getexif()[306]
-   except : date_time = ""
-   try:make = img.getexif()[271]
-   except : make = ""
-   try:model = img.getexif()[272]
-   except : model = ""
-   try:f_number = img.getexif()[33437]
-   except : f_number = ""
-   try:lens_model = img.getexif()[0xA434]
-   except : lens_model = ""
-   try:img_format = img.format
-   except : img_format = ""
-   try:software = img.getexif()[305]
-   except : software = ''
-   try:lens_lenth = img.getexif()[41989]
-   except:lens_lenth = 0
-   try:iso_speed = img.getexif()[34867]
-   except: iso_speed = 0
+   if request.form['password'] == '' :
+    gallery_id = int(request.form['galleryId'])
+    files = request.files.getlist("file")
+   else: abort(404)
 
-   photo = Photo()
-   photo.name = file.filename
-   photo.full_size = full_size
-   photo.small_size = small_size
-   photo.gallery_id = gallery_id
-   photo.shutter = str(shutter)
-   photo.aperture=str(aperture)
-   photo.date_time=date_time
-   photo.img_size=img_size
-   photo.make=make
-   photo.model=model
-   photo.f_number=str(f_number)
-   photo.lens_model=lens_model
-   photo.img_format=img_format  
-   photo.lens_lenth=str(lens_lenth)
-   photo.iso_speed=str(iso_speed)
-   photo.software=software
-   try:
-       db.session.add(photo)
-       db.session.commit() 
-   except:db.session.rollback()
-   finally:
-       db.session.close() 
-       result = {"success": True}
-       return jsonify(result)
+   for file in files:
+    data = file.read()
+    full_size = render_picture(data)
+    img_data = image_resize(file)
+    small_size = render_picture(img_data)
+    
+    img = Image.open(file)
+    img_size = str(img.width) +' X '+ str(img.height)   
+    try:shutter = img.getexif()[37377]
+    except:shutter = ""
+    try:aperture = img.getexif()[37378]
+    except :aperture = ""
+    try:date_time = img.getexif()[306]
+    except : date_time = ""
+    try:make = img.getexif()[271]
+    except : make = ""
+    try:model = img.getexif()[272]
+    except : model = ""
+    try:f_number = img.getexif()[33437]
+    except : f_number = ""
+    try:lens_model = img.getexif()[0xA434]
+    except : lens_model = ""
+    try:img_format = img.format
+    except : img_format = ""
+    try:software = img.getexif()[305]
+    except : software = ''
+    try:lens_lenth = img.getexif()[41989]
+    except:lens_lenth = 0
+    try:iso_speed = img.getexif()[34867]
+    except: iso_speed = 0
+
+    photo = Photo()
+    photo.name = file.filename
+    photo.full_size = full_size
+    photo.small_size = small_size
+    photo.gallery_id = gallery_id
+    photo.shutter = str(shutter)
+    photo.aperture=str(aperture)
+    photo.date_time=date_time
+    photo.img_size=img_size
+    photo.make=make
+    photo.model=model
+    photo.f_number=str(f_number)
+    photo.lens_model=lens_model
+    photo.img_format=img_format  
+    photo.lens_lenth=str(lens_lenth)
+    photo.iso_speed=str(iso_speed)
+    photo.software=software
+    try:
+        db.session.add(photo)
+    except:db.session.rollback()
+
+   db.session.commit() 
+   db.session.close() 
+   result = {"success": True}
+   return jsonify(result)
+    
 
 
 @app.route('/photo/<photo_id>/delete', methods=['DELETE','GET'])
