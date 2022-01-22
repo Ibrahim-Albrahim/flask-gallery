@@ -26,7 +26,10 @@ class AddGallery extends Component {
     titleChangeHandler = (event) => {
       this.setState({title : event.target.value})
     }
-
+    
+    passwordChangeHandler = (event) => {
+      this.setState({password : event.target.value})
+    }
 
     
     async onFormSubmit (event) {
@@ -35,6 +38,7 @@ class AddGallery extends Component {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("title", this.state.title);
+      formData.append("password", this.state.password)
 
       this.setState({uploading: true})
 
@@ -90,6 +94,10 @@ class AddGallery extends Component {
                   <div className="file-div">
                     <Form.Label className="gallery-labels">Gallery photo:</Form.Label>
                     <Form.Control type="file" className="gallery-thum" onChange={this.fileSelectHandler} name="inputFile" accept="image/*" required/>
+                  </div>
+                  <div className="file-div mt-2">
+                    <Form.Label>password:</Form.Label>
+                    <Form.Control type="password" className="gallery-thum" onChange={this.passwordChangeHandler} required />
                   </div>
                   <Button variant="primary" type="submit">Add</Button>
                 </Form.Group>

@@ -13,41 +13,52 @@ class AddPhoto extends Component {
       apiUrl : this.props.apiUrl,
       show : false,
       galleryId : null,
-      file : null,
+      file : {},
       uploading : false,
+      formData : new FormData(),
+      password : ''
+
     }
   }
 
+  
   fileSelectHandler = (event) => {
-    this.setState({file : event.target.files[0]})
+    var totalfiles = event.target.files.length;
+    for (var index=0; index < totalfiles; index++){
+      this.state.formData.append("file", event.target.files[index]);
+    }
   }
 
   galleryIdChangeHandler = (event) => {
     this.setState({galleryId : event.target.value})
   }
 
+  passwordChangeHandler = (event) => {
+    this.setState({password : event.target.value})
+  }
+
 
   
   async onFormSubmit (event) {
     event.preventDefault();
-    let file = this.state.file;
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("galleryId", this.state.galleryId);
+    // const formData = new FormData();
+    // this.state.formData.append("file", this.state.file);
+    this.state.formData.append("galleryId", this.state.galleryId);
+    this.state.formData.append("password", this.state.password)
 
     this.setState({uploading: true})
 
     await fetch(this.state.apiUrl+'photo/create' , {
       method: 'POST',
-      body: formData
+      body: this.state.formData
     })
     .then(() => {
       document.getElementById("add-photo-form").reset();
       return;
     }).then(
-      success => console.log(success)
+      success => console.log('success')
     ).catch(
-      error => console.log(error)
+      error => console.log('error')
     )
 
     await this.props.makeIsLoadedFalse();
@@ -87,7 +98,11 @@ class AddPhoto extends Component {
                   </div>
                   <div className="file-div">
                     <Form.Label>photo:</Form.Label>
-                    <Form.Control type="file" className="gallery-thum" onChange={this.fileSelectHandler} accept="image/*" required/>
+                    <Form.Control type="file" className="gallery-thum" onChange={this.fileSelectHandler} accept="image/*" required multiple/>
+                  </div>
+                  <div className="file-div mt-2">
+                    <Form.Label>password:</Form.Label>
+                    <Form.Control type="password" className="gallery-thum" onChange={this.passwordChangeHandler} required />
                   </div>
                   <Button variant="primary" type="submit">Add</Button>
                 </Form.Group>
