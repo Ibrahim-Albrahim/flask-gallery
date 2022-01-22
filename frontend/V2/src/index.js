@@ -9,6 +9,7 @@ import Home from './routes/Home';
 import NoPage from './routes/NoPage'
 import ViewGallery from './routes/ViewGallery'
 import ViewPhoto from './routes/ViewPhoto'
+import Create from './routes/Create'
 import './scss/index.scss'
 
 ReactDOM.render(
@@ -17,6 +18,7 @@ ReactDOM.render(
       <Route path="/" element={<Home />} />
       <Route path="gallery/:galleryId" element={<ViewGallery />} />
       <Route path="photo/:photoId" element={<ViewPhoto />} />
+      <Route path="create" element={<Create />} />
       <Route path="*" element={<NoPage />} />
     </Routes>
   </BrowserRouter>,

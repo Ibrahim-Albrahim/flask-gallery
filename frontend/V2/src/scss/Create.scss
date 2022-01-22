@@ -1,0 +1,91 @@
+%sections{
+    height: 350px;
+    width: 500px;
+    background-color: #2b2b36;
+    display: grid;
+    justify-items: center;
+}
+
+%forms{
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    grid-template-rows: repeat(4, 1fr);
+    row-gap: 12px;
+    height: 200px;
+
+    input{
+        text-align: center;
+        font-weight: bolder;
+        background-color: wheat;
+        place-content: center;
+        justify-items: center;
+        color: #14141c;
+        border-radius: 1rem;
+
+        &:hover{
+            transform: scale(1.01);
+        }
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        }/* hide arrow */
+    }
+    .btn{
+        font-weight: bold;
+        margin: 0 30%;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 4;
+        grid-row-end: 6;
+        border-radius: 2rem;
+        background-color: #424255;
+        border-style: none;
+        color: wheat;
+        &:hover{
+            background-color: #33333a;
+            color: white;
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+    }
+}
+
+.create-container{
+    display: grid;
+    margin: 8%;
+    place-content: center;
+    justify-items: center;
+    grid-template-columns: repeat(2,50%);
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+    color: wheat;
+
+    #gallery-file:hover ,#photo-file:hover{
+        cursor: pointer;
+        transform: scale(1.1)!important;
+    }
+    .add-gallery-section{
+        @extend %sections;
+        border-radius: 2rem 5rem;
+        #add-gallery-form{    
+            @extend %forms;
+        }
+    }
+    
+    .add-photo-section{
+        @extend %sections;
+        border-radius: 5rem 2rem;
+        #add-photo-form{
+            @extend %forms;
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .create-container{
+        grid-template-columns: 0;
+        grid-template-rows: repeat(2, 50%);
+    }
+}
