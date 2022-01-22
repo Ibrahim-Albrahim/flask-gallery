@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactLoading from 'react-loading';
 import '../scss/Create.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
 import Footer from './components/Footer';
-import { apiUrl } from '../config';
 import { Button, Form } from 'react-bootstrap';
 
 
 const Home = () => {
     const apiUrl = 'http://localhost:5000/'
     const [isUploading , setIsUploading] = useState({isUploading: false})
-    const [galleryForm , setGalleryForm] = useState(new FormData())
-    const [photoForm , setPhotoForm] = useState(new FormData())
+    const [galleryForm] = useState(new FormData())
+    const [photoForm] = useState(new FormData())
 
     async function onGalleryFormSubmit (event) {
         event.preventDefault();
