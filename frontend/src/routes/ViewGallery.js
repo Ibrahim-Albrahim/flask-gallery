@@ -6,10 +6,11 @@ import Sliders from './components/Sliders';
 import Loading from './components/Loading';
 import Header from './components/Header';
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
+import GalleryEmpty from './components/GalleryEmpty';
 
 
 const ViewGallery = () => {
-    const [photos , setPhotos] = useState({photos:[], isLoaded : false , headerText : ''});
+    const [photos , setPhotos] = useState({photos:[], isLoaded : false , success: null , headerText : ''});
     let { galleryId } = useParams();
 // if response 404 show 'No images in this gallery'
 
@@ -17,10 +18,7 @@ const ViewGallery = () => {
         const fetchData = async () => {
             await fetch(apiUrl+`${galleryId}`)
                 .then(response => response.json())
-                .then(json => {
-                  try {setPhotos({photos: json , isLoaded : true , headerText : json[0].gallery_title})} 
-                  catch {}
-                });
+                .then(json => { setPhotos({photos: json , isLoaded : true , success: json[0].success , headerText : json[0].gallery_title}) })
         };
     
         fetchData();
@@ -29,7 +27,9 @@ const ViewGallery = () => {
     return (
       <div className='view-gallery-container'>
         <Header headerText={ galleryId +' | '+ photos.headerText }  icon={faArrowAltCircleLeft} headerLink='/'/>
-        {photos.isLoaded? <Sliders imgs={photos.photos} link={'/photo/'} /> : <Loading />}
+        {photos.isLoaded? 
+        photos.success? <Sliders imgs={photos.photos} link={'/photo/'} />  : <GalleryEmpty />
+        : <Loading />}
       </div>
     )
 };

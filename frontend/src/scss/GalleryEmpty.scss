@@ -1,0 +1,20 @@
+section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(20, 20, 28, 0.5);
+    width: 90vw;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    margin-top: 1rem;
+    color: rgb(167, 22, 22);
+
+
+    img{
+        border-radius: 1rem;
+        opacity: 0.25;
+        max-width: 100%;
+    }
+}
