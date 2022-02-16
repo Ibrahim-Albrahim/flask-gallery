@@ -4,19 +4,21 @@ import '../scss/ViewGallery.scss'
 import { apiUrl } from '../config';
 import Sliders from './components/Sliders';
 import Loading from './components/Loading';
-
+import Header from './components/Header';
+import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 
 
 const ViewGallery = () => {
-    const [photos , setPhotos] = useState({photos:[], isLoaded : false});
+    const [photos , setPhotos] = useState({photos:[], isLoaded : false , headerText : ''});
     let { galleryId } = useParams();
+// if response 404 show 'No images in this gallery'
 
     useEffect(() => {
         const fetchData = async () => {
             await fetch(apiUrl+`${galleryId}`)
                 .then(response => response.json())
                 .then(json => {
-                  try {setPhotos({photos: json , isLoaded : true})} 
+                  try {setPhotos({photos: json , isLoaded : true , headerText : json[0].gallery_title})} 
                   catch {}
                 });
         };
@@ -26,6 +28,7 @@ const ViewGallery = () => {
 
     return (
       <div className='view-gallery-container'>
+        <Header headerText={ galleryId +' | '+ photos.headerText }  icon={faArrowAltCircleLeft} headerLink='/'/>
         {photos.isLoaded? <Sliders imgs={photos.photos} link={'/photo/'} /> : <Loading />}
       </div>
     )

@@ -1,18 +1,19 @@
 import React, { useState, useEffect }  from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {Image} from 'react-bootstrap';
-import ReactLoading from 'react-loading';
 import '../scss/ViewPhoto.scss'
 import RcViewer from '@hanyk/rc-viewer'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { apiUrl } from '../config';
+import Loading from './components/Loading'
+import Header from './components/Header';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 const ViewGallery = () => {
-  const [photos , setPhotos] = useState({photos:[],isLoaded: false});
+  const [photo , setPhoto] = useState({photo:[] , isLoaded: false , galleryId: '' , galleryName: '' , photoId: ''});
   let { photoId } = useParams();
-
-
   const options={
     button: false,
     navbar: false,
@@ -34,36 +35,40 @@ const ViewGallery = () => {
       const fetchData = async () => {
           await fetch(apiUrl+`photo/${photoId}`)
               .then(response => response.json())
-              .then(json => setPhotos({photos: json,isLoaded: true}) );
+              .then(json => setPhoto({photo: json , isLoaded: true , galleryId: json.gallery_id , galleryName: json.gallery_title , photoId: json.id}) );
       };
-  
       fetchData();
-    },[photoId]);
+  },[photoId]);
 
-  const page = 
-  <div className='view-photo-container'>
-    <h5>Click Photo to View</h5>
-    {photos.isLoaded? 
-    <div className='view-photo-details'>
-      <Link to={'/gallery/'+photos.photos.gallery_id}><FontAwesomeIcon className='faArrowAltCircleLeft' icon={faArrowAltCircleLeft} /></Link>
-      <RcViewer options={options}> <Image src={"data:;base64,"+photos.photos.full_size}/> </RcViewer>
-      <ul>
-        <li><pre><span>ID:         {photos.photos.id}</span></pre></li>
-        <li><pre><span>FileName:   {photos.photos.FileName}</span></pre></li>
-        <li><pre><span>Size:       {photos.photos.Size}</span></pre></li>
-        <li><pre><span>DateTime:   {photos.photos.DateTime}</span></pre></li>
-        <li><pre><span>Make:       {photos.photos.Make}</span></pre></li>
-        <li><pre><span>Model:      {photos.photos.Model}</span></pre></li>
-        <li><pre><span>Software:   {photos.photos.Software}</span></pre></li>
-        <li><pre><span>FNumber:    {photos.photos.FNumber}</span></pre></li>
-        <li><pre><span>FocalLength:{photos.photos.FocalLengthIn35mmFilm}</span></pre></li>
-        <li><pre><span>ISO:        {photos.photos.ISO}</span></pre></li>
-        <li><pre><span>Shutter:    {photos.photos.ShutterSpeedValue}</span></pre></li>
-        <li><pre><span>Aperture:   {photos.photos.ApertureValue}</span></pre></li>
-      </ul>
-    </div>
-    : <ReactLoading type="spinningBubbles" color="#ffffff" height={300} width={300} className="spinning-bubbles"/>} 
-  </div>;
-  return page;
+  return (
+    <div className='view-photo-container'>
+      <Header headerText={photo.galleryId +' | '+photo.galleryName +' / '+ photo.photoId} headerLink={'/gallery/'+photo.galleryId} icon={faArrowAltCircleLeft}/>
+      {photo.isLoaded? 
+      <div className='view-photo-details'>
+        <section>
+          <RcViewer className='rc-viewer' options={options}>
+            <Image src={"data:;base64,"+photo.photo.full_size}/>
+            <FontAwesomeIcon className='fa-eye' icon={faEye} />
+          </RcViewer>
+        </section>
+        <section>
+          <ul>
+            <li><pre>FileName:    {photo.photo.FileName}</pre></li>
+            <li><pre>Size:        {photo.photo.Size}</pre></li>
+            <li><pre>DateTime:    {photo.photo.DateTime}</pre></li>
+            <li><pre>Make:        {photo.photo.Make}</pre></li>
+            <li><pre>Model:       {photo.photo.Model}</pre></li>
+            <li><pre>Software:    {photo.photo.Software}</pre></li>
+            <li><pre>FNumber:     {photo.photo.FNumber}</pre></li>
+            <li><pre>FocalLength: {photo.photo.FocalLengthIn35mmFilm}</pre></li>
+            <li><pre>ISO:         {photo.photo.ISO}</pre></li>
+            <li><pre>Shutter:     {photo.photo.ShutterSpeedValue}</pre></li>
+            <li><pre>Aperture:    {photo.photo.ApertureValue}</pre></li>
+          </ul>
+        </section>
+      </div>
+      : <Loading />} 
+  </div>
+  );
 };
 export default ViewGallery;
