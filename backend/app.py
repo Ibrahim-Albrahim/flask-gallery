@@ -1,9 +1,6 @@
 import os
-from turtle import title
 from flask import (Flask,
                 request,
-                redirect,
-                url_for,
                 abort,
                 jsonify)
 from flask_cors import CORS
@@ -47,16 +44,22 @@ def create_app():
             data.append({
                 'id': gallery.id,
                 'title' : gallery.title,
-                'img' : gallery.rendered_data})
+                'small_size' : gallery.rendered_data})
         return jsonify(data)
 
     @app.route('/<gallery_id>' , methods=['GET'])
     def show_gallery(gallery_id):
         gallery = Gallery.query.get(gallery_id)
         data = []
+        if len(gallery.photos) == 0:
+            data.append({
+                'success': False,
+                'gallery_title': gallery.title
+            })
+            return jsonify(data)
         for photo in gallery.photos:
-            gallery = Gallery.query.get(photo.gallery_id)
             data.append ({
+                'success': True,
                 'id': photo.id,
                 'file_name' : photo.name,
                 'small_size': photo.small_size, 
@@ -141,9 +144,11 @@ def create_app():
     @app.route('/photo/<photo_id>', methods=['GET'])
     def show_photo(photo_id):
         photo = Photo.query.get(photo_id)
+        gallery = Gallery.query.get(photo.gallery_id)
         data =  ({
                 'id': photo.id,
                 'gallery_id':photo.gallery_id,
+                'gallery_title': gallery.title,
                 'FileName' : photo.name,
                 'DateTime': photo.date_time, 
                 'ImageFormat': photo.img_format, 
