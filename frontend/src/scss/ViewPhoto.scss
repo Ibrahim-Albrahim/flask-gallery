@@ -1,53 +1,66 @@
+%flex-center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 .view-photo-container{
-    display: grid;
-    place-items: center;
+    @extend %flex-center;
+    flex-direction: column;
     color: wheat;
+    width: 90%;
+    gap: 1rem;
     
-    .spinning-bubbles{
-        position: absolute;
-        left: 40vw;
-        top: 30vh;
-        width: 100%;
-        text-align: center;
-    }
-    a{
-        color: wheat;    
-        position: absolute;  
-        top: 15%;
-        left: 5%;
-
-        .faArrowAltCircleLeft{
-            font-size: 50px;
-            margin-right: 12px;    
-            
-            &:hover{
-                color: white;
-                transform: scale(1.2);
-            }
-        }
-    }
     .view-photo-details{
-        img{        
-            width: auto;
-            max-width: 85vw;
-            height: auto;
-            max-height: 95vh;
-            object-fit: cover;
-            padding: 0 8px 0 8px;
-            opacity: 0.7;
+        display: grid;
+        place-items: center;
+        grid-template-columns: 1fr 0.35fr;
+        width: 100%;
+        gap: 1rem;
 
-            &:hover{
-                opacity: 1;
-                transform: scale(1.1);
-                z-index: 1;
-                cursor: pointer;
+        section{
+            @extend %flex-center;
+            flex-direction: column;
+            background-color: rgba(20, 20, 28, 0.5);
+            height: 100%;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 1.5rem;
+            overflow: hidden;
+
+            .rc-viewer{
+                @extend %flex-center;
+                margin: 1rem 0;
+                position: relative;        
+                &:hover .fa-eye{
+                    opacity: 1;
+                }
+
+                &:hover img{
+                    opacity: 0.7;
+                    transform: scale(1.05);
+                    cursor: pointer;
+                }
+
+                img{
+                    max-width: 100%;
+                    max-height: 50vh;
+                    border-radius: 1rem;
+                    transition: opacity 500ms , transform 500ms;
+                }   
+                .fa-eye{
+                    position: absolute;
+                    font-size: 5rem;
+                    opacity: 0;
+                    transition: opacity 500ms;
+                }
             }
-        }   
-        ul{
-            font-size: 16;
-            top: 25%;
-            left: 1%;
-            position: fixed;
+
+            
+            ul{
+                margin-left: -1.5rem;
+                font-size: 0.8rem;
+            }
         }
     }
 }
