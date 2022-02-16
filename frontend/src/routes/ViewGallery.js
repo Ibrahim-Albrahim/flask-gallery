@@ -12,7 +12,6 @@ import GalleryEmpty from './components/GalleryEmpty';
 const ViewGallery = () => {
     const [photos , setPhotos] = useState({photos:[], isLoaded : false , success: null , headerText : ''});
     let { galleryId } = useParams();
-// if response 404 show 'No images in this gallery'
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,10 +26,11 @@ const ViewGallery = () => {
     return (
       <div className='view-gallery-container'>
         <Header headerText={ galleryId +' | '+ photos.headerText }  icon={faArrowAltCircleLeft} headerLink='/'/>
-        {photos.headerText === 404? <Navigate to={`/error=404$Gallery ${galleryId} Not Found`}/>
-        : photos.isLoaded? 
-        photos.success? <Sliders imgs={photos.photos} link={'/photo/'} />  : <GalleryEmpty />
-        : <Loading />}
+        {
+        photos.headerText === 404? <Navigate to={`/error=404$Gallery ${galleryId} Not Found`}/>
+          : photos.isLoaded? photos.success? <Sliders imgs={photos.photos} link={'/photo/'} />  : <GalleryEmpty />
+            : <Loading />
+        }
       </div>
     )
 };

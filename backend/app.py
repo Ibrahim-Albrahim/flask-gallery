@@ -154,11 +154,16 @@ def create_app():
         if photo is None:
             data.append({
                 'success': False,
-                'id': photo_id,
+                'id': 404,
+                'gallery_title': 404,
+                'gallery_id': 404,
+                
             })
             return jsonify(data)
+
         gallery = Gallery.query.get(photo.gallery_id)
         data.append({
+                'success': True,
                 'id': photo.id,
                 'gallery_id':photo.gallery_id,
                 'gallery_title': gallery.title,

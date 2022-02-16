@@ -11,8 +11,8 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-const ViewGallery = () => {
-  const [photo , setPhoto] = useState({photo:[] , isLoaded: false , galleryId: '' , galleryName: '' , photoId: '' , success: null});
+const ViewPhoto = () => {
+  const [photos , setPhotos] = useState({photos:[] , isLoaded: false , galleryId: '' , galleryName: '' , photoId: ''});
   let { photoId } = useParams();
   const options={
     button: false,
@@ -35,42 +35,45 @@ const ViewGallery = () => {
       const fetchData = async () => {
           await fetch(apiUrl+`photo/${photoId}`)
               .then(response => response.json())
-              .then(json => setPhoto({photo: json , isLoaded: true , success: json[0].success , galleryId: json.gallery_id , galleryName: json.gallery_title , photoId: json.id}) );
+              .then(json => setPhotos({photos: json , isLoaded: true , galleryId: json[0].gallery_id , galleryName: json[0].gallery_title , photoId: json[0].id}) );
       };
       fetchData();
   },[photoId]);
 
+  var photo = photos.photos[0]
+
   return (
     <div className='view-photo-container'>
-      <Header headerText={photo.galleryId +' | '+photo.galleryName +' / '+ photo.photoId} headerLink={'/gallery/'+photo.galleryId} icon={faArrowAltCircleLeft}/>
+      <Header headerText={photos.galleryId +' | '+photos.galleryName +' / '+ photos.photoId} headerLink={'/gallery/'+photos.galleryId} icon={faArrowAltCircleLeft}/>
       {
-      !photo.success? <Navigate to={`/error=404$Photo ${photoId} Not Found`}/>
-      : photo.isLoaded? 
-      <div className='view-photo-details'>
-        <section>
-          <RcViewer className='rc-viewer' options={options}>
-            <Image src={"data:;base64,"+photo.photo.full_size}/>
-            <FontAwesomeIcon className='fa-eye' icon={faEye} />
-          </RcViewer>
-        </section>
-        <section>
-          <ul>
-            <li><pre>FileName:    {photo.photo.FileName}</pre></li>
-            <li><pre>Size:        {photo.photo.Size}</pre></li>
-            <li><pre>DateTime:    {photo.photo.DateTime}</pre></li>
-            <li><pre>Make:        {photo.photo.Make}</pre></li>
-            <li><pre>Model:       {photo.photo.Model}</pre></li>
-            <li><pre>Software:    {photo.photo.Software}</pre></li>
-            <li><pre>FNumber:     {photo.photo.FNumber}</pre></li>
-            <li><pre>FocalLength: {photo.photo.FocalLengthIn35mmFilm}</pre></li>
-            <li><pre>ISO:         {photo.photo.ISO}</pre></li>
-            <li><pre>Shutter:     {photo.photo.ShutterSpeedValue}</pre></li>
-            <li><pre>Aperture:    {photo.photo.ApertureValue}</pre></li>
-          </ul>
-        </section>
-      </div>
-      : <Loading />} 
+      photos.photoId === 404? <Navigate to={`/error=404$Photo ${photoId} Not Found`}/>
+        :photos.isLoaded? 
+          <div className='view-photo-details'>
+            <section>
+              <RcViewer className='rc-viewer' options={options}>
+                <Image src={"data:;base64,"+photo.full_size}/>
+                <FontAwesomeIcon className='fa-eye' icon={faEye} />
+              </RcViewer>
+            </section>
+            <section>
+              <ul>
+                <li><pre>FileName:    {photo.FileName}</pre></li>
+                <li><pre>Size:        {photo.Size}</pre></li>
+                <li><pre>DateTime:    {photo.DateTime}</pre></li>
+                <li><pre>Make:        {photo.Make}</pre></li>
+                <li><pre>Model:       {photo.Model}</pre></li>
+                <li><pre>Software:    {photo.Software}</pre></li>
+                <li><pre>FNumber:     {photo.FNumber}</pre></li>
+                <li><pre>FocalLength: {photo.FocalLengthIn35mmFilm}</pre></li>
+                <li><pre>ISO:         {photo.ISO}</pre></li>
+                <li><pre>Shutter:     {photo.ShutterSpeedValue}</pre></li>
+                <li><pre>Aperture:    {photo.ApertureValue}</pre></li>
+              </ul>
+            </section>
+          </div>
+          : <Loading />
+      }
   </div>
   );
 };
-export default ViewGallery;
+export default ViewPhoto;
