@@ -8,6 +8,6 @@ const NoPage = () => {
                 <a href='https://www.instagram.com/hemo7f12/' target='_blank' rel="noreferrer"><FontAwesomeIcon className='faInstagram' icon={faInstagram} /></a>
                 <a href='https://www.snapchat.com/add/hemo7ss' target='_blank' rel="noreferrer"><FontAwesomeIcon className='faSnapchatSquare' icon={faSnapchatSquare} /></a>
             </footer>;
-  };
-  
-  export default NoPage;
+};
+
+export default NoPage;
