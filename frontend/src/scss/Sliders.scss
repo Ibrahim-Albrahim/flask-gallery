@@ -1,0 +1,94 @@
+.slider{
+    width: 95vw;
+    background-color: rgba(20, 20, 28, 0.5);
+    border-radius: 1.5rem;
+    margin: 1.5rem 0;
+    padding: 2rem;
+    
+    .slick-arrow{
+        z-index: 2;
+        background-color: rgba(20, 20, 28, 1);
+        border-radius: 50%;
+        transition: transform 150ms, margin 150ms;
+        
+        &:hover{
+            transform: scale(1.3);
+            margin-top: -10px;
+        }
+    }
+
+    .slick-disabled:hover{
+        transform: scale(1.0);
+        margin-top: -10px;
+    }
+    .slick-prev{
+        margin-left: 2.25rem;
+    }
+    .slick-next{
+        margin-right: 2.25rem;
+    }
+
+    .slick-dots{
+        margin: 0 -2rem;
+        li{
+            transform: scale(1.5);
+            transition: transform 500ms;
+            &:hover{
+                transform: scale(2);
+            }
+        }
+    }
+    
+    .view-photo{
+        position: relative;
+        display: grid;
+        place-items: center;
+        border-radius: 5rem;
+        overflow: hidden;
+        margin: 0 10px;  
+        color: wheat;
+        &:hover img{
+            opacity: 0.4;
+            transform: scale(1.25);
+            cursor: pointer;                
+        }
+        &:hover .info{
+            opacity: 0.75;
+        }
+        img{
+            width: 350px;
+            height: 350px;
+            max-width: 350px;
+            max-height: 350px;
+            object-fit: cover;
+            transition: opacity 500ms , transform 500ms;
+        }
+        .info {
+            opacity: 0;
+            position: absolute;
+            text-align: center;  
+            font-size: 1.25rem;
+            transition: opacity 500ms;
+            .fa-eye{
+                font-size: 5rem;
+            }
+            h3{
+                margin: 0;
+            }
+        }
+    }
+}
+
+
+@media only screen and(max-width:600px) {
+    .slider{
+        padding: 1.5rem;
+        img{
+            max-width: 275px!important;
+            // max-height: 275px!important;
+        }
+        .slick-dots{
+            margin: 0 -1.5rem;
+        }
+    }
+}
