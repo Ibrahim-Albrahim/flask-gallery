@@ -1,5 +1,5 @@
 import React, { useState, useEffect }  from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams , Navigate } from 'react-router-dom';
 import {Image} from 'react-bootstrap';
 import '../scss/ViewPhoto.scss'
 import RcViewer from '@hanyk/rc-viewer'
@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const ViewGallery = () => {
-  const [photo , setPhoto] = useState({photo:[] , isLoaded: false , galleryId: '' , galleryName: '' , photoId: ''});
+  const [photo , setPhoto] = useState({photo:[] , isLoaded: false , galleryId: '' , galleryName: '' , photoId: '' , success: null});
   let { photoId } = useParams();
   const options={
     button: false,
@@ -35,7 +35,7 @@ const ViewGallery = () => {
       const fetchData = async () => {
           await fetch(apiUrl+`photo/${photoId}`)
               .then(response => response.json())
-              .then(json => setPhoto({photo: json , isLoaded: true , galleryId: json.gallery_id , galleryName: json.gallery_title , photoId: json.id}) );
+              .then(json => setPhoto({photo: json , isLoaded: true , success: json[0].success , galleryId: json.gallery_id , galleryName: json.gallery_title , photoId: json.id}) );
       };
       fetchData();
   },[photoId]);
@@ -43,7 +43,9 @@ const ViewGallery = () => {
   return (
     <div className='view-photo-container'>
       <Header headerText={photo.galleryId +' | '+photo.galleryName +' / '+ photo.photoId} headerLink={'/gallery/'+photo.galleryId} icon={faArrowAltCircleLeft}/>
-      {photo.isLoaded? 
+      {
+      !photo.success? <Navigate to={`/error=404$Photo ${photoId} Not Found`}/>
+      : photo.isLoaded? 
       <div className='view-photo-details'>
         <section>
           <RcViewer className='rc-viewer' options={options}>

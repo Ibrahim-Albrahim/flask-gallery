@@ -1,5 +1,5 @@
 import React, { useState, useEffect }  from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams , Navigate  } from 'react-router-dom';
 import '../scss/ViewGallery.scss'
 import { apiUrl } from '../config';
 import Sliders from './components/Sliders';
@@ -27,7 +27,8 @@ const ViewGallery = () => {
     return (
       <div className='view-gallery-container'>
         <Header headerText={ galleryId +' | '+ photos.headerText }  icon={faArrowAltCircleLeft} headerLink='/'/>
-        {photos.isLoaded? 
+        {photos.headerText === 404? <Navigate to={`/error=404$Gallery ${galleryId} Not Found`}/>
+        : photos.isLoaded? 
         photos.success? <Sliders imgs={photos.photos} link={'/photo/'} />  : <GalleryEmpty />
         : <Loading />}
       </div>

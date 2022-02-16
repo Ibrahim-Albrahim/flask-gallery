@@ -4,7 +4,7 @@ import '../../scss/GalleryEmpty.scss'
 
 const GalleryEmpty = () => {
     return (  
-        <section>
+        <section className='gallery-empty-section'>
             <h3>there is no photos in this gallery</h3>
             <img src={img404} />
         </section>

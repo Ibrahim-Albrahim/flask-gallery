@@ -51,6 +51,12 @@ def create_app():
     def show_gallery(gallery_id):
         gallery = Gallery.query.get(gallery_id)
         data = []
+        if gallery is None:
+            data.append({
+                'success': False,
+                'gallery_title': 404
+            })
+            return jsonify(data)
         if len(gallery.photos) == 0:
             data.append({
                 'success': False,
@@ -144,8 +150,15 @@ def create_app():
     @app.route('/photo/<photo_id>', methods=['GET'])
     def show_photo(photo_id):
         photo = Photo.query.get(photo_id)
+        data = []
+        if photo is None:
+            data.append({
+                'success': False,
+                'id': photo_id,
+            })
+            return jsonify(data)
         gallery = Gallery.query.get(photo.gallery_id)
-        data =  ({
+        data.append({
                 'id': photo.id,
                 'gallery_id':photo.gallery_id,
                 'gallery_title': gallery.title,

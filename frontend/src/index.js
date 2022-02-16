@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import {
   BrowserRouter,
   Routes,
-  Route
+  Route,
+  Navigate
 } from 'react-router-dom';
 import Home from './routes/Home';
-import NoPage from './routes/NoPage'
+import Error from './routes/Error'
 import ViewGallery from './routes/ViewGallery'
 import ViewPhoto from './routes/ViewPhoto'
 import Manage from './routes/Manage'
@@ -20,7 +21,8 @@ ReactDOM.render(
       <Route path="gallery/:galleryId" element={<ViewGallery />} />
       <Route path="photo/:photoId" element={<ViewPhoto />} />
       <Route path="manage" element={<Manage />} />
-      <Route path="*" element={<NoPage />} />
+      <Route path="*" element={<Navigate to="/error=404$Page Not Found" />} />
+      <Route path="error=:status$:errorMsg" element={<Error />} />
     </Routes>
     <Footer />
   </BrowserRouter>,

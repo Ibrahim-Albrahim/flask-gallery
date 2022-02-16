@@ -1,4 +1,4 @@
-section{
+.gallery-empty-section{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -7,7 +7,6 @@ section{
     width: 90vw;
     padding: 2rem;
     border-radius: 1.5rem;
-    overflow: hidden;
     margin-top: 1rem;
     color: rgb(167, 22, 22);
 
