@@ -1,9 +1,11 @@
 import os
-from flask import (Flask,
-                request,
-                abort,
-                make_response,
-                jsonify)
+from flask import (
+    Flask,
+    request,
+    abort,
+    make_response,
+    jsonify
+)
 from flask_cors import CORS
 from models import (Photo,Gallery, setup_db, db)
 from flask_moment import Moment
@@ -36,6 +38,10 @@ def create_app():
         stream = io.BytesIO()
         image.save(stream, format='PNG')
         return stream.getvalue()
+
+    def try_getexif(img, exif):
+        try: return img.getexif()[exif]
+        except: return "Unknown"
 
     @app.route('/', methods=['GET'])
     def index():
@@ -169,7 +175,6 @@ def create_app():
                 'gallery_title': gallery.title,
                 'FileName' : photo.name,
                 'DateTime': photo.date_time, 
-                'ImageFormat': photo.img_format, 
                 'Size': photo.img_size, 
                 'Make': photo.make +' '+'('+ str(photo.model)+')', 
                 'Model': photo.lens_model, 
@@ -200,57 +205,34 @@ def create_app():
             small_size = render_picture(img_data)
             
             img = Image.open(file)
-            img_size = str(img.width) +' X '+ str(img.height)   
-            try:shutter = img.getexif()[37377]
-            except:shutter = "Unknown"
-            try:aperture = img.getexif()[37378]
-            except :aperture = "Unknown"
-            try:date_time = img.getexif()[306]
-            except : date_time = "Unknown"
-            try:make = img.getexif()[271]
-            except : make = "Unknown"
-            try:model = img.getexif()[272]
-            except : model = "Unknown"
-            try:f_number = img.getexif()[33437]
-            except : f_number = "Unknown"
-            try:lens_model = img.getexif()[0xA434]
-            except : lens_model = "Unknown"
-            try:img_format = img.format
-            except : img_format = "Unknown"
-            try:software = img.getexif()[305]
-            except : software = "Unknown"
-            try:lens_lenth = img.getexif()[41989]
-            except:lens_lenth = "Unknown"
-            try:iso_speed = img.getexif()[34867]
-            except: iso_speed = "Unknown"
+            img_size = str(img.width) +' X '+ str(img.height)
 
             photo = Photo()
             photo.name = file.filename
             photo.full_size = full_size
             photo.small_size = small_size
             photo.gallery_id = gallery_id
-            photo.shutter = str(shutter)
-            photo.aperture=str(aperture)
-            photo.date_time=date_time
             photo.img_size=img_size
-            photo.make=make
-            photo.model=model
-            photo.f_number=str(f_number)
-            photo.lens_model=lens_model
-            photo.img_format=img_format  
-            photo.lens_lenth=str(lens_lenth)
-            photo.iso_speed=str(iso_speed)
-            photo.software=software
+            photo.shutter= str(try_getexif(img, 37377))
+            photo.aperture= str(try_getexif(img, 37378))
+            photo.date_time= try_getexif(img, 306)
+            photo.make= try_getexif(img, 271)
+            photo.model= try_getexif(img, 272)
+            photo.f_number= str(try_getexif(img, 33437))
+            photo.lens_model= try_getexif(img, 0xA434)
+            photo.software= try_getexif(img, 305)
+            photo.lens_lenth= str(try_getexif(img, 41989))
+            photo.iso_speed= str(try_getexif(img, 34867))
+
             try:
                 db.session.add(photo)
             except:
                 db.session.rollback()
                 abort(make_response(jsonify({"success": False}), 500))
 
-        db.session.commit() 
-        db.session.close() 
-        result = {"success": True}
-        return jsonify(result)
+        db.session.commit()
+        db.session.close()
+        return jsonify({"success": True})
 
     @app.route('/photo/<photo_id>/edit', methods=['PATCH'])
     def edit_photo(photo_id):
@@ -277,98 +259,27 @@ def create_app():
                     small_size = render_picture(img_data)
                     img = Image.open(file)
                     img_size = str(img.width) +' X '+ str(img.height)   
-                    try:shutter = img.getexif()[37377]
-                    except:shutter = "Unknown"
-                    try:aperture = img.getexif()[37378]
-                    except :aperture = "Unknown"
-                    try:date_time = img.getexif()[306]
-                    except : date_time = "Unknown"
-                    try:make = img.getexif()[271]
-                    except : make = "Unknown"
-                    try:model = img.getexif()[272]
-                    except : model = "Unknown"
-                    try:f_number = img.getexif()[33437]
-                    except : f_number = "Unknown"
-                    try:lens_model = img.getexif()[0xA434]
-                    except : lens_model = "Unknown"
-                    try:img_format = img.format
-                    except : img_format = "Unknown"
-                    try:software = img.getexif()[305]
-                    except : software = "Unknown"
-                    try:lens_lenth = img.getexif()[41989]
-                    except:lens_lenth = "Unknown"
-                    try:iso_speed = img.getexif()[34867]
-                    except: iso_speed = "Unknown"
 
                     setattr(photo, 'full_size', full_size)
                     setattr(photo, 'small_size', small_size)
                     setattr(photo, 'img_size', img_size)
                     setattr(photo, 'name', file.filename)
-                    setattr(photo, 'shutter', str(shutter))
-                    setattr(photo, 'aperture', str(aperture))
-                    setattr(photo, 'date_time', date_time)
-                    setattr(photo, 'make', make)
-                    setattr(photo, 'model', model)
-                    setattr(photo, 'f_number', str(f_number))
-                    setattr(photo, 'lens_model', lens_model)
-                    setattr(photo, 'img_format', img_format)
-                    setattr(photo, 'software', software)
-                    setattr(photo, 'lens_lenth', str(lens_lenth))
-                    setattr(photo, 'iso_speed', str(iso_speed))
+                    setattr(photo, 'shutter', str(try_getexif(img, 37377)))
+                    setattr(photo, 'aperture', str(try_getexif(img, 37378)))
+                    setattr(photo, 'date_time', try_getexif(img, 306))
+                    setattr(photo, 'make', try_getexif(img, 271))
+                    setattr(photo, 'model', try_getexif(img, 272))
+                    setattr(photo, 'f_number', str(try_getexif(img, 33437)))
+                    setattr(photo, 'lens_model', try_getexif(img, 0xA434))
+                    setattr(photo, 'software', try_getexif(img, 305))
+                    setattr(photo, 'lens_lenth', str(try_getexif(img, 41989)))
+                    setattr(photo, 'iso_speed', str(try_getexif(img, 34867)))
                 except: pass
-                try:
-                    img_size = request.form['img_size']
-                    setattr(photo, 'img_size', str(img_size))
-                except : pass
-                try:
-                    name = request.form['name']
-                    setattr(photo, 'name', str(name))
-                except : pass
-                try:
-                    shutter = request.form['shutter']
-                    setattr(photo, 'shutter', str(shutter))
-                except : pass
-                try:
-                    aperture = request.form['aperture']
-                    setattr(photo, 'aperture', str(aperture))
-                except : pass
-                try:
-                    date_time = request.form['date_time']
-                    setattr(photo, 'date_time', str(date_time))
-                except : pass
-                try:
-                    make = request.form['make']
-                    setattr(photo, 'make', str(make))
-                except : pass
-                try:
-                    model = request.form['model']
-                    setattr(photo, 'model', str(model))
-                except : pass
-                try:
-                    f_number = request.form['f_number']
-                    setattr(photo, 'f_number', str(f_number))
-                except : pass
-                try:
-                    lens_model = request.form['lens_model']
-                    setattr(photo, 'lens_model', str(lens_model))
-                except : pass
-                try:
-                    img_format = request.form['img_format']
-                    setattr(photo, 'img_format', str(img_format))
-                except : pass
-                try:
-                    software = request.form['software']
-                    setattr(photo, 'software', str(software))
-                except : pass
-                try:
-                    lens_lenth = request.form['lens_lenth']
-                    setattr(photo, 'lens_lenth', str(lens_lenth))
-                except : pass
-                try:
-                    iso_speed = request.form['iso_speed']
-                    setattr(photo, 'iso_speed', str(iso_speed))
-                except : pass
 
+                requested = ['img_size','name','shutter','aperture','date_time','make','model','f_number','lens_model','img_format','software','lens_lenth','iso_speed']
+                for req in requested:
+                        try: setattr(photo, req, request.form[req])
+                        except: pass
 
                 try:
                     db.session.commit()
