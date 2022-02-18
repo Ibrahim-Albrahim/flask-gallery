@@ -2,6 +2,7 @@ import os
 from flask import (Flask,
                 request,
                 abort,
+                make_response,
                 jsonify)
 from flask_cors import CORS
 from models import (Photo,Gallery, setup_db, db)
@@ -54,9 +55,9 @@ def create_app():
         if gallery is None:
             data.append({
                 'success': False,
-                'gallery_title': 404
+                'gallery_title': '404'
             })
-            return jsonify(data)
+            abort(make_response(jsonify(data), 404))
         if len(gallery.photos) == 0:
             data.append({
                 'success': False,
@@ -89,10 +90,10 @@ def create_app():
                 return jsonify(result)
             except:
                 db.session.rollback()
-                abort(500)
+                abort(make_response(jsonify({"success": False}), 500))
             finally:
                 db.session.close() 
-        else : abort(404)
+        else : abort(make_response(jsonify({"success": False}), 404))
 
     @app.route('/gallery/<gallery_id>/edit', methods=['PATCH'])
     def edit_gallery(gallery_id):
@@ -100,7 +101,7 @@ def create_app():
 
         if request.form['password'] == 'PASSWORD' :
             if gallery is None:
-                abort(404)
+                abort(make_response(jsonify({"success": False}), 404))
             else:
                 try:
                     file = request.files['file']
@@ -119,10 +120,10 @@ def create_app():
                     return jsonify(result)
                 except:
                     db.session.rollback()
-                    abort(500)
+                    abort(make_response(jsonify({"success": False}), 500))
                 finally:
                     db.session.close()
-        else: abort(404)        
+        else: abort(make_response(jsonify({"success": False}), 404))     
 
 
 
@@ -131,20 +132,19 @@ def create_app():
         if request.form['password'] == 'PASSWORD' :
             gallery = Gallery.query.get(gallery_id)
             if not gallery:
-                print('Gallery '+gallery_id+" not found.")
-                abort(404)
+                abort(make_response(jsonify({"success": False}), 404))
             else:
                 try:
                     db.session.delete(gallery)
                     db.session.commit()
-                except:
-                    abort(500)
-                    db.session.rollback()
-                finally:
-                    db.session.close()
                     result = {"success": True}
                     return jsonify(result)
-        else : abort(404)
+                except:
+                    db.session.rollback()
+                    abort(make_response(jsonify({"success": False}), 500))
+                finally:
+                    db.session.close()
+        else : abort(make_response(jsonify({"success": False}), 404))
 
 
     @app.route('/photo/<photo_id>', methods=['GET'])
@@ -154,12 +154,12 @@ def create_app():
         if photo is None:
             data.append({
                 'success': False,
-                'id': 404,
+                'id': '404',
                 'gallery_title': 404,
                 'gallery_id': 404,
                 
             })
-            return jsonify(data)
+            abort(make_response(jsonify(data), 404))
 
         gallery = Gallery.query.get(photo.gallery_id)
         data.append({
@@ -187,8 +187,11 @@ def create_app():
     def create_photo():
         if request.form['password'] == 'PASSWORD' :
             gallery_id = int(request.form['galleryId'])
+            gallery = Gallery.query.get(gallery_id)
+            if gallery is None:
+                abort(make_response(jsonify({"success": False}), 404))
             files = request.files.getlist("file")
-        else: abort(404)
+        else: abort(make_response(jsonify({"success": False}), 404))
 
         for file in files:
             data = file.read()
@@ -199,27 +202,27 @@ def create_app():
             img = Image.open(file)
             img_size = str(img.width) +' X '+ str(img.height)   
             try:shutter = img.getexif()[37377]
-            except:shutter = ""
+            except:shutter = "Unknown"
             try:aperture = img.getexif()[37378]
-            except :aperture = ""
+            except :aperture = "Unknown"
             try:date_time = img.getexif()[306]
-            except : date_time = ""
+            except : date_time = "Unknown"
             try:make = img.getexif()[271]
-            except : make = ""
+            except : make = "Unknown"
             try:model = img.getexif()[272]
-            except : model = ""
+            except : model = "Unknown"
             try:f_number = img.getexif()[33437]
-            except : f_number = ""
+            except : f_number = "Unknown"
             try:lens_model = img.getexif()[0xA434]
-            except : lens_model = ""
+            except : lens_model = "Unknown"
             try:img_format = img.format
-            except : img_format = ""
+            except : img_format = "Unknown"
             try:software = img.getexif()[305]
-            except : software = ""
+            except : software = "Unknown"
             try:lens_lenth = img.getexif()[41989]
-            except:lens_lenth = 0
+            except:lens_lenth = "Unknown"
             try:iso_speed = img.getexif()[34867]
-            except: iso_speed = 0
+            except: iso_speed = "Unknown"
 
             photo = Photo()
             photo.name = file.filename
@@ -242,6 +245,7 @@ def create_app():
                 db.session.add(photo)
             except:
                 db.session.rollback()
+                abort(make_response(jsonify({"success": False}), 500))
 
         db.session.commit() 
         db.session.close() 
@@ -254,12 +258,16 @@ def create_app():
 
         if request.form['password'] == 'PASSWORD' :
             if photo is None:
-                abort(404)
+                abort(make_response(jsonify({"success": False}), 404))
             else:
                 try:
                     new_gallery_id = request.form['new_gallery_id']
                     setattr(photo, 'gallery_id', new_gallery_id)
-                except: pass
+                except: new_gallery_id = photo.gallery_id
+                
+                gallery = Gallery.query.get(new_gallery_id)
+                if gallery is None:
+                    abort(make_response(jsonify({"success": False}), 404))
 
                 try: 
                     file = request.files['file']
@@ -270,27 +278,27 @@ def create_app():
                     img = Image.open(file)
                     img_size = str(img.width) +' X '+ str(img.height)   
                     try:shutter = img.getexif()[37377]
-                    except:shutter = ""
+                    except:shutter = "Unknown"
                     try:aperture = img.getexif()[37378]
-                    except :aperture = ""
+                    except :aperture = "Unknown"
                     try:date_time = img.getexif()[306]
-                    except : date_time = ""
+                    except : date_time = "Unknown"
                     try:make = img.getexif()[271]
-                    except : make = ""
+                    except : make = "Unknown"
                     try:model = img.getexif()[272]
-                    except : model = ""
+                    except : model = "Unknown"
                     try:f_number = img.getexif()[33437]
-                    except : f_number = ""
+                    except : f_number = "Unknown"
                     try:lens_model = img.getexif()[0xA434]
-                    except : lens_model = ""
+                    except : lens_model = "Unknown"
                     try:img_format = img.format
-                    except : img_format = ""
+                    except : img_format = "Unknown"
                     try:software = img.getexif()[305]
-                    except : software = ""
+                    except : software = "Unknown"
                     try:lens_lenth = img.getexif()[41989]
-                    except:lens_lenth = 0
+                    except:lens_lenth = "Unknown"
                     try:iso_speed = img.getexif()[34867]
-                    except: iso_speed = 0
+                    except: iso_speed = "Unknown"
 
                     setattr(photo, 'full_size', full_size)
                     setattr(photo, 'small_size', small_size)
@@ -364,34 +372,32 @@ def create_app():
 
                 try:
                     db.session.commit()
-                    result = {"success": True}
-                    return jsonify(result)
+                    return jsonify({"success": True})
                 except:
                     db.session.rollback()
-                    abort(500)
+                    abort(make_response(jsonify({"success": False}), 500))
                 finally:
                     db.session.close()
-        else: abort(404)    
+        else: abort(make_response(jsonify({"success": False}), 404))   
 
     @app.route('/photo/<photo_id>/delete', methods=['POST'])
     def delete_photo(photo_id):
         if request.form['password'] == 'PASSWORD' :
             photo = Photo.query.get(photo_id)
             if not photo:
-                print('Photo '+photo_id+" not found.")
-                abort(404)
+                abort(make_response(jsonify({"success": False}), 404))
             else:
                 try:
                     db.session.delete(photo)
                     db.session.commit()
-                except:
-                    abort(500)
-                    db.session.rollback()
-                finally:
-                    db.session.close()
                     result = {"success": True}
                     return jsonify(result)
-        else : abort(404)
+                except:
+                    db.session.rollback()
+                    abort(make_response(jsonify({"success": False}), 500))
+                finally:
+                    db.session.close()
+        else : abort(make_response(jsonify({"success": False}), 404))
     return app
 
 if __name__ == '__main__':
