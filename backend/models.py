@@ -5,7 +5,6 @@ from sqlalchemy import Integer, ForeignKey
 from sqlalchemy.orm import relationship
 import os
 
-# DB_PATH = 'postgresql://postgres:1234@localhost:5432/gallery'
 database_filename = "gallery_db.db"
 project_dir = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = "sqlite:///{}".format(os.path.join(project_dir, database_filename))
