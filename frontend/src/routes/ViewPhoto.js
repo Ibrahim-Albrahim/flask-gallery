@@ -46,7 +46,7 @@ const ViewPhoto = () => {
     <div className='view-photo-container'>
       <Header headerText={photos.galleryId +' | '+photos.galleryName +' / '+ photos.photoId} headerLink={'/gallery/'+photos.galleryId} icon={faArrowAltCircleLeft}/>
       {
-      photos.photoId === 404? <Navigate to={`/error=404$Photo ${photoId} Not Found`}/>
+      photos.photoId === '404'? <Navigate to={`/error=404$Photo ${photoId} Not Found`}/>
         :photos.isLoaded? 
           <div className='view-photo-details'>
             <section>
