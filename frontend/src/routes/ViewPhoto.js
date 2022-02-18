@@ -63,11 +63,11 @@ const ViewPhoto = () => {
                 <li><pre>Make:        {photo.Make}</pre></li>
                 <li><pre>Model:       {photo.Model}</pre></li>
                 <li><pre>Software:    {photo.Software}</pre></li>
-                <li><pre>FNumber:     {photo.FNumber}</pre></li>
-                <li><pre>FocalLength: {photo.FocalLengthIn35mmFilm}</pre></li>
-                <li><pre>ISO:         {photo.ISO}</pre></li>
                 <li><pre>Shutter:     {photo.ShutterSpeedValue}</pre></li>
                 <li><pre>Aperture:    {photo.ApertureValue}</pre></li>
+                <li><pre>ISO:         {photo.ISO}</pre></li>
+                <li><pre>FNumber:     {photo.FNumber}</pre></li>
+                <li><pre>FocalLength: {photo.FocalLengthIn35mmFilm}</pre></li>
               </ul>
             </section>
           </div>
