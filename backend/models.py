@@ -47,7 +47,6 @@ class Photo(db.Model):
     model = db.Column(db.Text, nullable=True)
     f_number = db.Column(db.Text, nullable=True)
     lens_model = db.Column(db.Text, nullable=True)
-    img_format = db.Column(db.Text, nullable=True)
     software = db.Column(db.Text, nullable=True)
     lens_lenth = db.Column(db.Text, nullable=True)    
     iso_speed = db.Column(db.Text, nullable=True)    
