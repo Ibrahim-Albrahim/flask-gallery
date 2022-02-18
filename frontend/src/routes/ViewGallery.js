@@ -27,7 +27,7 @@ const ViewGallery = () => {
       <div className='view-gallery-container'>
         <Header headerText={ galleryId +' | '+ photos.headerText }  icon={faArrowAltCircleLeft} headerLink='/'/>
         {
-        photos.headerText === 404? <Navigate to={`/error=404$Gallery ${galleryId} Not Found`}/>
+        photos.headerText === '404'? <Navigate to={`/error=404$Gallery ${galleryId} Not Found`}/>
           : photos.isLoaded? photos.success? <Sliders imgs={photos.photos} link={'/photo/'} />  : <GalleryEmpty />
             : <Loading />
         }
