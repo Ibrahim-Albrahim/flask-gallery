@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve app
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/home/hemo7f12/public_html/gallery/api
+Environment="PATH=/home/hemo7f12/public_html/gallery/api/venv/bin"
+ExecStart=/home/hemo7f12/public_html/gallery/api/venv/bin/uwsgi --ini app.ini
+
+[Install]
+WantedBy=multi-user.target
