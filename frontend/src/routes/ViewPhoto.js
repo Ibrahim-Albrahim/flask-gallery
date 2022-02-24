@@ -33,7 +33,7 @@ const ViewPhoto = () => {
 
   useEffect(() => {
       const fetchData = async () => {
-          await fetch(apiUrl+`photo/${photoId}`)
+          await fetch(apiUrl+`/photo/${photoId}`)
               .then(response => response.json())
               .then(json => setPhotos({photos: json , isLoaded: true , galleryId: json[0].gallery_id , galleryName: json[0].gallery_title , photoId: json[0].id}) );
       };

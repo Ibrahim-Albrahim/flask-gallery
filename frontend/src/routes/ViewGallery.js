@@ -15,7 +15,7 @@ const ViewGallery = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            await fetch(apiUrl+`${galleryId}`)
+            await fetch(apiUrl+`/${galleryId}`)
                 .then(response => response.json())
                 .then(json => { setPhotos({photos: json , isLoaded : true , success: json[0].success , headerText : json[0].gallery_title}) })
         };
