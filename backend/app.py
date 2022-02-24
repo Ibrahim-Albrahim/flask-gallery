@@ -43,7 +43,7 @@ def create_app():
         try: return img.getexif()[exif]
         except: return "Unknown"
 
-    @app.route('/', methods=['GET'])
+    @app.route('/api', methods=['GET'])
     def index():
         galleries=Gallery.query.all()
         data = []
@@ -54,7 +54,7 @@ def create_app():
                 'small_size' : gallery.rendered_data})
         return jsonify(data)
 
-    @app.route('/<gallery_id>' , methods=['GET'])
+    @app.route('/api/<gallery_id>' , methods=['GET'])
     def show_gallery(gallery_id):
         gallery = Gallery.query.get(gallery_id)
         data = []
@@ -80,7 +80,7 @@ def create_app():
             })
         return jsonify(data)
 
-    @app.route('/gallery/create', methods=['POST'])
+    @app.route('/api/gallery/create', methods=['POST'])
     def create_gallery():
         if request.form['password'] == 'PASSWORD' :
             title = request.form['title']
@@ -101,7 +101,7 @@ def create_app():
                 db.session.close() 
         else : abort(make_response(jsonify({"success": False}), 404))
 
-    @app.route('/gallery/<gallery_id>/edit', methods=['PATCH'])
+    @app.route('/api/gallery/<gallery_id>/edit', methods=['PATCH'])
     def edit_gallery(gallery_id):
         gallery = Gallery.query.get(gallery_id)
 
@@ -133,7 +133,7 @@ def create_app():
 
 
 
-    @app.route('/gallery/<gallery_id>/delete', methods=['POST'])
+    @app.route('/api/gallery/<gallery_id>/delete', methods=['POST'])
     def delete_gallery(gallery_id):
         if request.form['password'] == 'PASSWORD' :
             gallery = Gallery.query.get(gallery_id)
@@ -153,7 +153,7 @@ def create_app():
         else : abort(make_response(jsonify({"success": False}), 404))
 
 
-    @app.route('/photo/<photo_id>', methods=['GET'])
+    @app.route('/api/photo/<photo_id>', methods=['GET'])
     def show_photo(photo_id):
         photo = Photo.query.get(photo_id)
         data = []
@@ -188,7 +188,7 @@ def create_app():
             })
         return jsonify(data)
 
-    @app.route('/photo/create', methods=['POST'])
+    @app.route('/api/photo/create', methods=['POST'])
     def create_photo():
         if request.form['password'] == 'PASSWORD' :
             gallery_id = int(request.form['galleryId'])
@@ -234,7 +234,7 @@ def create_app():
         db.session.close()
         return jsonify({"success": True})
 
-    @app.route('/photo/<photo_id>/edit', methods=['PATCH'])
+    @app.route('/api/photo/<photo_id>/edit', methods=['PATCH'])
     def edit_photo(photo_id):
         photo = Photo.query.get(photo_id)
 
@@ -291,7 +291,7 @@ def create_app():
                     db.session.close()
         else: abort(make_response(jsonify({"success": False}), 404))   
 
-    @app.route('/photo/<photo_id>/delete', methods=['POST'])
+    @app.route('/api/photo/<photo_id>/delete', methods=['POST'])
     def delete_photo(photo_id):
         if request.form['password'] == 'PASSWORD' :
             photo = Photo.query.get(photo_id)
@@ -313,4 +313,4 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
-    app.run()
+    app.run(host='0.0.0.0')
