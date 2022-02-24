@@ -6,7 +6,7 @@ const GalleryEmpty = () => {
     return (  
         <section className='gallery-empty-section'>
             <h3>there is no photos in this gallery</h3>
-            <img src={img404} />
+            <img src={img404} alt='404' />
         </section>
     )
 };
