@@ -8,25 +8,46 @@
     flex-direction: column;
     color: wheat;
     width: 95vw;
+    max-width: 1500px;
     gap: 1rem;
+    max-height: 80vh!important;
     
     .view-photo-details{
-        display: grid;
-        place-items: center;
-        grid-template-columns: 1fr 0.35fr;
+        @extend %flex-center;
+        flex-wrap: wrap;
         width: 100%;
         gap: 1rem;
-
+        
         section{
             @extend %flex-center;
             flex-direction: column;
             background-color: rgba(20, 20, 28, 0.5);
-            height: 100%;
-            width: 100%;
             padding: 0.75rem;
             border-radius: 1.5rem;
             overflow: hidden;
-
+            max-height: 50vh;
+            @media screen and (max-width: 1175px) {
+                &.image-section{
+                    max-height: 30vh;
+                    min-width: 100%;
+                    img{
+                        max-height: 60vw!important;
+                        max-width: 70vw!important;
+                    }
+                }
+                &.details-section{
+                    min-width: 100%;
+                    max-height: 42.5vh;
+                }
+            }
+            &.image-section{
+                height: 100%;
+                width: 68.5%
+            }
+            &.details-section{
+                height: 100%;
+                width: minmax(30% , 90%)
+            }
             .rc-viewer{
                 @extend %flex-center;
                 margin: 1rem 0;
@@ -34,16 +55,14 @@
                 &:hover .fa-eye{
                     opacity: 0.75;
                 }
-
                 &:hover img{
                     opacity: .75;
                     transform: scale(1.05);
                     cursor: pointer;
                 }
-
                 img{
                     max-width: 100%;
-                    max-height: 50vh;
+                    max-height: 47.5vh;
                     border-radius: 1rem;
                     opacity: 0.5;
                     transition: opacity 500ms , transform 500ms;
@@ -55,11 +74,13 @@
                     pointer-events: none;
                 }
             }
-
             
             ul{
                 margin-left: -1.5rem;
                 font-size: 0.8rem;
+                @media screen and (max-width: 400px) {
+                    font-size: 0.5rem;
+                }
             }
         }
     }
@@ -69,21 +90,19 @@
     .view-photo-container{
         margin-top: 2rem;
         .view-photo-details{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            max-height: 80vh;
             padding-bottom: 2rem;
-
             section{
+                width: 90%!important;
+                min-height: 37.5%;
+                max-height: 35vh;
                 .rc-viewer{ 
                     img{
-                        max-height: unset;
-                        max-width: 150%;
+                        max-height: 275px;
+                        max-width: 100%;
+                        object-fit: cover;
                     }
                     .fa-eye{
-                        font-size: 3rem;
+                        font-size: 2rem;
                     }
                 }
                 ul{
@@ -93,3 +112,4 @@
         }
     }
 }
+

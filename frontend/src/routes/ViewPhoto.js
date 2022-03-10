@@ -49,13 +49,13 @@ const ViewPhoto = () => {
       photos.photoId === '404'? <Navigate to={`/error=404$Photo ${photoId} Not Found`}/>
         :photos.isLoaded? 
           <div className='view-photo-details'>
-            <section>
+            <section className='image-section'>
               <RcViewer className='rc-viewer' options={options}>
                 <Image src={"data:;base64,"+photo.full_size}/>
                 <FontAwesomeIcon className='fa-eye' icon={faEye} />
               </RcViewer>
             </section>
-            <section>
+            <section className='details-section'>
               <ul>
                 <li><pre>FileName:    {photo.FileName}</pre></li>
                 <li><pre>Size:        {photo.Size}</pre></li>
