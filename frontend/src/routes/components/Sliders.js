@@ -1,3 +1,4 @@
+import React from 'react';
 import Slider from "react-slick";
 import { Image } from 'react-bootstrap';
 import "slick-carousel/slick/slick.css";
