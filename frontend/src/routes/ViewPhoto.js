@@ -5,8 +5,8 @@ import '../scss/ViewPhoto.scss'
 import RcViewer from '@hanyk/rc-viewer'
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { apiUrl } from '../config';
-import Loading from './components/Loading'
-import Header from './components/Header';
+import Loading from '../components/Loading'
+import Header from '../components/Header';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

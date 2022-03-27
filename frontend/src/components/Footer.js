@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInstagram , faSnapchatSquare} from '@fortawesome/free-brands-svg-icons'
-import '../../scss/Footer.scss'
+import '../scss/Footer.scss'
 
 const NoPage = () => {
     return  <footer >

@@ -3,7 +3,7 @@ import ReactLoading from 'react-loading';
 import '../scss/Manage.scss';
 import { Button, Form, Navbar } from 'react-bootstrap';
 import { apiUrl } from '../config';
-import Header from './components/Header';
+import Header from '../components/Header';
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 
 const Manage = () => {    

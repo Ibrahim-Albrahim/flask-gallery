@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../scss/Home.scss';
 import { apiUrl } from '../config';
-import Loading from './components/Loading'
-import Sliders from './components/Sliders';
-import Header from './components/Header';
+import Loading from '../components/Loading'
+import Sliders from '../components/Sliders';
+import Header from '../components/Header';
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 
 

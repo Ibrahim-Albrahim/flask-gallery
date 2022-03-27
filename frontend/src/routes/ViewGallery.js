@@ -2,11 +2,11 @@ import React, { useState, useEffect }  from 'react';
 import { useParams , Navigate  } from 'react-router-dom';
 import '../scss/ViewGallery.scss'
 import { apiUrl } from '../config';
-import Sliders from './components/Sliders';
-import Loading from './components/Loading';
-import Header from './components/Header';
+import Sliders from '../components/Sliders';
+import Loading from '../components/Loading';
+import Header from '../components/Header';
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
-import GalleryEmpty from './components/GalleryEmpty';
+import GalleryEmpty from '../components/GalleryEmpty';
 
 
 const ViewGallery = () => {

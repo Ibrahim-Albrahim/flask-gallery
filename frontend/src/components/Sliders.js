@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import '../../scss/Sliders.scss';
+import '../scss/Sliders.scss';
 
 const Sliders = (props) => {
     const settings = {

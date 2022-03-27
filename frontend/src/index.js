@@ -12,7 +12,7 @@ import ViewGallery from './routes/ViewGallery'
 import ViewPhoto from './routes/ViewPhoto'
 import Manage from './routes/Manage'
 import './scss/index.scss'
-import Footer from '../src/routes/components/Footer'
+import Footer from '../src/components/Footer'
 
 ReactDOM.render(
   <BrowserRouter>

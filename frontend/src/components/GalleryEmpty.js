@@ -1,6 +1,6 @@
 import React from 'react';
-import img404 from '../../assets/img404.jpg'
-import '../../scss/GalleryEmpty.scss'
+import img404 from '../assets/img404.jpg'
+import '../scss/GalleryEmpty.scss'
 
 
 const GalleryEmpty = () => {
