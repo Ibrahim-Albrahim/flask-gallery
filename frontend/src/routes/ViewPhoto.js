@@ -7,9 +7,8 @@ import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { apiUrl } from '../config';
 import Loading from '../components/Loading'
 import Header from '../components/Header';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 
 const ViewPhoto = () => {
   const [photos , setPhotos] = useState({photos:[] , isLoaded: false , galleryId: '' , galleryName: '' , photoId: ''});
@@ -32,19 +31,38 @@ const ViewPhoto = () => {
   }
 
   useEffect(() => {
-      const fetchData = async () => {
-          await fetch(apiUrl+`/photo/${photoId}`)
-              .then(response => response.json())
-              .then(json => setPhotos({photos: json , isLoaded: true , galleryId: json[0].gallery_id , galleryName: json[0].gallery_title , photoId: json[0].id}) );
-      };
-      fetchData();
+    const faInfo = document.querySelector('.fa-InfoCircle');
+    let clicked = false
+    const showDetails = ()=> {
+      document.getElementById('details-section').style.visibility = "visible";
+      document.getElementById('details-section').style.opacity = "1";
+    }
+    const hideDetails = ()=> {
+      document.getElementById('details-section').style.visibility = "hidden";
+      document.getElementById('details-section').style.opacity = "0";
+    }
+    faInfo.addEventListener("mouseover", showDetails);
+    faInfo.addEventListener("mouseout", ()=>{if (clicked === false) hideDetails()});
+    faInfo.addEventListener("click", ()=> { 
+      if (clicked === false) { clicked = true; showDetails(); } 
+      else if (clicked === true)  { clicked = false; hideDetails(); }
+    })
+  
+    const fetchData = async () => {
+        await fetch(apiUrl+`/photo/${photoId}/show`)
+            .then(response => response.json())
+            .then(json => setPhotos({photos: json , isLoaded: true , galleryId: json[0].gallery_id , galleryName: json[0].gallery_title , photoId: json[0].id}) );
+    };
+    fetchData();
   },[photoId]);
 
   var photo = photos.photos[0]
 
   return (
     <div className='view-photo-container'>
-      <Header headerText={photos.galleryId +' | '+photos.galleryName +' / '+ photos.photoId} headerLink={'/gallery/'+photos.galleryId} icon={faArrowAltCircleLeft}/>
+      <Header headerText={photos.galleryId +' | '+photos.galleryName +' / '+ photos.photoId} headerLink={'/gallery/'+photos.galleryId} icon={faArrowAltCircleLeft}>
+        <FontAwesomeIcon className='fa-InfoCircle' icon={faInfoCircle} />
+      </Header>
       {
       photos.photoId === '404'? <Navigate to={`/error=404$Photo ${photoId} Not Found`}/>
         :photos.isLoaded? 
@@ -55,7 +73,7 @@ const ViewPhoto = () => {
                 <FontAwesomeIcon className='fa-eye' icon={faEye} />
               </RcViewer>
             </section>
-            <section className='details-section'>
+            <section className='details-section' id='details-section'>
               <ul>
                 <li><pre>FileName:    {photo.FileName}</pre></li>
                 <li><pre>Size:        {photo.Size}</pre></li>
