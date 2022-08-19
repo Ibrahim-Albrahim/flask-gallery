@@ -48,16 +48,29 @@ def create_app():
         galleries=Gallery.query.all()
         data = []
         for gallery in galleries:
-            data.append({
-                'id': gallery.id,
-                'title' : gallery.title,
-                'small_size' : gallery.rendered_data})
+            data.append(gallery.id)
         return jsonify(data)
 
-    @app.route('/api/<gallery_id>' , methods=['GET'])
+    @app.route('/api/gallery/<gallery_id>', methods=['GET'])
+    def get_galleries(gallery_id):
+        gallery=Gallery.query.get(gallery_id)
+        data = []
+        # photo_id = []
+            # for photo in gallery.photos:
+            #     photo_id.append(photo.id)
+        data.append({
+            'id': gallery.id,
+            'title' : gallery.title,
+            'small_size' : gallery.rendered_data,
+            # 'photos_id': photo_id
+            })
+        return jsonify(data)
+
+    @app.route('/api/gallery/<gallery_id>/photos' , methods=['GET'])
     def show_gallery(gallery_id):
         gallery = Gallery.query.get(gallery_id)
         data = []
+        ides = []
         if gallery is None:
             data.append({
                 'success': False,
@@ -71,13 +84,12 @@ def create_app():
             })
             return jsonify(data)
         for photo in gallery.photos:
-            data.append ({
-                'success': True,
-                'id': photo.id,
-                'file_name' : photo.name,
-                'small_size': photo.small_size, 
-                'gallery_title': gallery.title,
-            })
+            ides.append (photo.id)
+        data.append({
+            'success': True,
+            'gallery_title': gallery.title,
+            'photos_ides': ides,
+        })
         return jsonify(data)
 
     @app.route('/api/gallery/create', methods=['POST'])
@@ -152,8 +164,18 @@ def create_app():
                     db.session.close()
         else : abort(make_response(jsonify({"success": False}), 404))
 
-
     @app.route('/api/photo/<photo_id>', methods=['GET'])
+    def get_photo(photo_id):
+        photo=Photo.query.get(photo_id)
+        data = []
+        data.append({
+            'id': photo_id,
+            'small_size': photo.small_size,
+        })
+        return jsonify(data)
+
+
+    @app.route('/api/photo/<photo_id>/show', methods=['GET'])
     def show_photo(photo_id):
         photo = Photo.query.get(photo_id)
         data = []
