@@ -1,13 +1,22 @@
-.header-component{
+%flex-center{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
+}
+
+.header-component{
+    @extend %flex-center;
+    justify-content: space-between;
     color: wheat;
     background-color: rgba(20, 20, 28, 0.5);
     border-radius: 1.5rem;
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 1rem 3rem;
+
+    div{
+        @extend %flex-center;
+        justify-content: flex-start;
+    }
 
     .fa-icon{
         color: wheat;
