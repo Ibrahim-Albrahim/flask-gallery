@@ -83,7 +83,7 @@ const Manage = () => {
                 
                 var totalfiles = formInputs[1].files.length;
                 for (var index=0; index < totalfiles; index++){ formData.append('file' , formInputs[1].files[index]) }
-                await fetch(apiUrl+'photo/create' , {method: 'POST', body: formData})
+                await fetch(apiUrl+'/photo/create' , {method: 'POST', body: formData})
                     .then(() => {
                         form.reset();
                         loadingBubbles.style.display = 'none'
@@ -119,7 +119,7 @@ const Manage = () => {
                         formElements.forEach(elm => elm.style.cssText = labelSuccess)
                         btnList[2].disabled = true;
                         loadingBubbles.style.display = 'unset'
-                        await fetch(apiUrl+'gallery/'+galleryId+'/edit' , {method: 'PATCH', body: formData})
+                        await fetch(apiUrl+'/gallery/'+galleryId+'/edit' , {method: 'PATCH', body: formData})
                         .then(() => {
                             form.reset();
                             loadingBubbles.style.display = 'none'
@@ -198,7 +198,7 @@ const Manage = () => {
                         metatagsGrp.style.cssText = 'display: none'
                         btnList[3].disabled = true;
                         loadingBubbles.style.display = 'unset'
-                        await fetch(apiUrl+'photo/'+oldPhotoId+'/edit' , {method: 'PATCH', body: formData})
+                        await fetch(apiUrl+'/photo/'+oldPhotoId+'/edit' , {method: 'PATCH', body: formData})
                         .then(() => {
                             form.reset();
                             loadingBubbles.style.display = 'none'
